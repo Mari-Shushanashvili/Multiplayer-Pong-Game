@@ -35,20 +35,20 @@
 
 ### Chunk 2.1: Backend Project Setup
 
--   [ ] **To-do 2.1.1: Navigate to the `backend` directory**
+-   [x] **To-do 2.1.1: Navigate to the `backend` directory**
     -   Use the command line to navigate to the `backend` directory: `cd backend`
     -   **Check:** Verify that the current directory in the terminal is `backend`.
--   [ ] **To-do 2.1.2: Initialize Node.js project**
+-   [x] **To-do 2.1.2: Initialize Node.js project**
     -   Run `npm init -y` to create a `package.json` file with default settings.
     -   **Check:** Verify that the `package.json` file is created in the `backend` directory.
--   [ ] **To-do 2.1.3: Install backend dependencies**
+-   [x] **To-do 2.1.3: Install backend dependencies**
     -   Install the following dependencies:
         -   `express`: For creating the web server.
         -   `socket.io`: For enabling real-time communication.
         -   `cors`: For handling Cross-Origin Resource Sharing.
     -   Command: `npm install express socket.io cors`
     -   **Check:** Verify that the dependencies are installed by checking the `node_modules` directory in `backend` and the `dependencies` section in `backend/package.json`.
--   [ ] **To-do 2.1.4: Install TypeScript development dependencies**
+-   [x] **To-do 2.1.4: Install TypeScript development dependencies**
     -   Install the following development dependencies:
         -   `typescript`: For using TypeScript.
         -   `ts-node`: For running TypeScript files directly during development.
@@ -58,36 +58,34 @@
         -   `@types/socket.io`: TypeScript type definitions for Socket.IO.
     -   Command: `npm install -D typescript ts-node nodemon @types/node @types/express @types/socket.io`
     -   **Check:** Verify that the dev dependencies are installed by checking the `node_modules` directory in `backend` and the `devDependencies` section in `backend/package.json`.
--   [ ] **To-do 2.1.5: Configure TypeScript**
+-   [x] **To-do 2.1.5: Configure TypeScript**
     -   Create a `tsconfig.json` file in the `backend` directory.
     -   **Check:** Verify that the `tsconfig.json` file is created in the `backend` directory and contains the specified configuration.
--   [ ] **To-do 2.1.6: Update `package.json` scripts**
+-   [x] **To-do 2.1.6: Update `package.json` scripts**
     -   Open the `backend/package.json` file.
     -   Modify the `scripts` section to include:
-        ```json
         "scripts": {
           "dev": "nodemon src/server.ts",
           "build": "tsc",
           "start": "node dist/server.js"
         }
-        ```
     -   **Check:** Verify that the `scripts` section in `backend/package.json` is updated correctly.
 
 ### Chunk 2.2: Basic Express and Socket.IO Setup
 
--   [ ] **To-do 2.2.1: Create `backend/src/server.ts`**
+-   [x] **To-do 2.2.1: Create `backend/src/server.ts`**
     -   Create a `src` directory inside the `backend` directory.
     -   Create a `server.ts` file inside the `src` directory.
     -   **Check:** Verify that the `src` directory and the `server.ts` file are created in the correct locations.
--   [ ] **To-do 2.2.2: Implement basic Express server**
--   [ ] **To-do 2.2.3: Integrate Socket.IO**
+-   [x] **To-do 2.2.2: Implement basic Express server**
+-   [x] **To-do 2.2.3: Integrate Socket.IO**
     -   Modify `backend/src/server.ts` to integrate Socket.IO
     -   **Check:** Verify that the code is modified in `backend/src/server.ts` correctly, including the `http` and `socket.io` imports, server creation, and Socket.IO server initialization.
--   [ ] **To-do 2.2.4: Handle `connect` and `disconnect` events**
+-   [x] **To-do 2.2.4: Handle `connect` and `disconnect` events**
     -   **Check:** Verify that the `connect` and `disconnect` event handlers are added correctly within the `io.on('connection', ...)` block.
--   [ ] **To-do 2.2.5: Handle `player-join` event**
+-   [x] **To-do 2.2.5: Handle `player-join` event**
     -   **Check:** Verify that the `player-join` event handler is added correctly within the `io.on('connection', ...)` block.
--   [ ] **To-do 2.2.6: Test basic Socket.IO connection (Manual)**
+-   [x] **To-do 2.2.6: Test basic Socket.IO connection (Manual)**
     -   Run the backend server using `npm run dev` in the `backend` directory.
     -   Use a Socket.IO client (e.g., a simple HTML page with Socket.IO client included via CDN, or a tool like Postman with Socket.IO plugin) to connect to the server.
     -   Observe the console logs on the backend to verify that `connect` and `disconnect` events are logged correctly.
@@ -96,13 +94,13 @@
 
 ### Chunk 2.3: Game Session Management
 
--   [ ] **To-do 2.3.1: Create `GameManager` class**
+-   [x] **To-do 2.3.1: Create `GameManager` class**
     -   Create a new directory `backend/src/gameManagement`.
     -   Create a new file `backend/src/gameManagement/GameManager.ts`.
     -   Define a `GameManager` class.
     -   This class should manage multiple game sessions (rooms) and store `Game` instances.
     -   **Check:** Verify that the directory and files are created and the `GameManager` class is defined.
--   [ ] **To-do 2.3.2: Implement `createGame()` method**
+-   [x] **To-do 2.3.2: Implement `createGame()` method**
     -   In the `GameManager` class, implement a `createGame()` method.
     -   This method should:
         -   Create a new `Game` instance.
@@ -110,7 +108,7 @@
         -   Store the `Game` instance in a data structure (e.g., a `Map`) with the `gameId` as the key.
         -   Return the generated `gameId`.
     -   **Check:** Verify that the `createGame()` method creates a `Game` instance, generates a unique `gameId`, stores it, and returns the `gameId`.
--   [ ] **To-do 2.3.3: Implement `joinGame()` method**
+-   [x] **To-do 2.3.3: Implement `joinGame()` method**
     -   In the `GameManager` class, implement a `joinGame()` method.
     -   This method should:
         -   Take a `gameId` and a `playerId` as arguments.
@@ -120,7 +118,7 @@
         -   If the game is full, return an error message.
         -   If the `Game` instance does not exist, return an error message.
     -   **Check:** Verify that the `joinGame()` method correctly handles joining players, assigns player numbers, and handles full or non-existent games.
--   [ ] **To-do 2.3.4: Modify Socket.IO event handling in `server.ts`**
+-   [x] **To-do 2.3.4: Modify Socket.IO event handling in server.ts**
     -   In `backend/src/server.ts`:
         -   Import the `GameManager` class.
         -   Create an instance of `GameManager`.
@@ -136,7 +134,7 @@
 
 ### Chunk 2.4: Core Game State Management
 
--   [ ] **To-do 2.4.1: Define `GameState` interface**
+-   [x] **To-do 2.4.1: Define `GameState` interface**
     -   Create a new directory `backend/src/types`.
     -   Create a new file `backend/src/types/GameState.ts`.
     -   Define a `GameState` interface to represent the current state of the game.
@@ -146,7 +144,7 @@
         -   Scores of players (`player1Score`, `player2Score`).
         -   Game status (e.g., `active`, `gameOver`).
     -   **Check:** Verify that the `GameState` interface is defined with the correct properties.
--   [ ] **To-do 2.4.2: Update `Game` class to manage `GameState`**
+-   [x] **To-do 2.4.2: Update `Game` class to manage `GameState`**
     -   In the `Game` class in `backend/src/game/Game.ts`:
         -   Add a `gameState`: `GameState` property to the class.
         -   Modify the `initialize()` method (or constructor) to initialize the `gameState` with appropriate starting values.
@@ -162,20 +160,20 @@
 
 ### Chunk 2.5: Core Game Mechanics
 
--   [ ] **To-do 2.5.1: Implement paddle movement in `Game` class**
+-   [x] **To-do 2.5.1: Implement paddle movement in `Game` class**
     -   In the `Game` class, implement methods to update the paddle positions (e.g., `movePaddle1(deltaY: number)`, `movePaddle2(deltaY: number)`).
     -   Ensure that the paddle's new position stays within the bounds of the game area.
     -   **Check:** Verify that the paddle movement methods update the paddle positions correctly and prevent them from going out of bounds.
--   [ ] **To-do 2.5.2: Implement ball-wall collision detection**
+-   [x] **To-do 2.5.2: Implement ball-wall collision detection**
     -   In the `updateBall()` method of the `Game` class, implement collision detection for the top and bottom walls.
     -   When a collision occurs, reverse the `velocityY` of the ball.
     -   **Check:** Verify that the ball bounces correctly off the top and bottom walls.
--   [ ] **To-do 2.5.3: Implement ball-paddle collision detection**
+-   [x] **To-do 2.5.3: Implement ball-paddle collision detection**
     -   In the `updateBall()` method, implement collision detection for the ball and the paddles.
     -   When a collision occurs, reverse the `velocityX` of the ball.
     -   Consider adding logic to adjust the `velocityY` based on where the ball hits the paddle.
     -   **Check:** Verify that the ball bounces correctly off the paddles.
--   [ ] **To-do 2.5.4: Implement scoring logic**
+-   [x] **To-do 2.5.4: Implement scoring logic**
     -   In the `updateBall()` method, implement logic to check if the ball has passed the left or right edges of the game area.
     -   If the ball passes the left edge, increment the right player's score. If it passes the right edge, increment the left player's score.
     -   Reset the ball to the center of the game area after a score.
@@ -184,7 +182,7 @@
 
 ### Chunk 2.6: Socket.IO Event Handling for Game Logic
 
--   [ ] **To-do 2.6.1: Handle `paddle-move` event**
+-   [x] **To-do 2.6.1: Handle `paddle-move` event**
     -   In `backend/src/server.ts`, add a Socket.IO event listener for the `paddle-move` event.
     -   The event data should include:
         -   `gameId`: The ID of the game being played.
@@ -193,14 +191,14 @@
     -   Call the appropriate paddle movement method in the `Game` class (e.g., `movePaddle1()`, `movePaddle2()`).
     -   After updating the paddle position, emit the updated `gameState` to all clients in the room.
     -   **Check:** Verify that the server correctly receives and handles the `paddle-move` event, updates the paddle position, and broadcasts the new game state.
--   [ ] **To-do 2.6.2: Implement game loop**
+-   [x] **To-do 2.6.2: Implement game loop**
     -   In `backend/src/server.ts`, implement a game loop using `setInterval` to periodically call the `updateBall()` method of the `Game` class for each active game.
     -   The game loop should also emit the updated `gameState` to all clients in the room after updating the ball's position.
     -   **Check:** Verify that the game loop is running and that the ball's position is updated and broadcast to clients at the correct interval.
 
 ### Chunk 2.7: Backend Testing
 
--   [ ] **To-do 2.7.1: Manual testing of game logic**
+-   [x] **To-do 2.7.1: Manual testing of game logic**
     -   Start the backend server.
     -   Use a Socket.IO client (e.g., a simple HTML page or a Socket.IO client library) to:
         -   Connect to the server.

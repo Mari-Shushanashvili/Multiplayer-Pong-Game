@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.IO Test</title>
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Socket.IO Test Client</h1>
+  <p>Open console (F12) to see logs.</p>
+  <button id="connectBtn">Connect</button>
+  <button id="createGameBtn" disabled>Create Game</button>
+  <button id="joinGameBtn" disabled>Join Game</button>
+  <input type="text" id="gameIdInput" placeholder="Enter Game ID">
+  <input type="text" id="playerNameInput" value="Test Player" placeholder="Enter Player Name">
+
+  <script>
+    let socket;
+    let createdGameId = '';
+
+    function setupSocketListeners(s) {
+      s.on('connect', () => {
+        console.log('CLIENT: Connected:', s.id);
+        document.getElementById('createGameBtn').disabled = false;
+        document.getElementById('joinGameBtn').disabled = false;
+      });
+
+      s.on('disconnect', () => {
+        console.log('CLIENT: Disconnected');
+        document.getElementById('createGameBtn').disabled = true;
+        document.getElementById('joinGameBtn').disabled = true;
+      });
+
+      s.on('gameCreated', (data) => {
+        console.log('CLIENT: Game Creation Success:', data);
+        createdGameId = data.gameId;
+        console.log('CLIENT: Stored Game ID for joining:', createdGameId);
+      });
+
+      s.on('joinedGame', (data) => {
+        console.log('CLIENT: Successfully Joined Game:', data);
+      });
+
+      s.on('playerJoinedRoom', (data) => {
+        console.log('CLIENT: Another player joined this room:', data);
+      });
+
+      s.on('error', (data) => {
+        console.error('CLIENT ERROR:', data.message);
+      });
+
+      s.on('gameState', (gameState) => {
+        console.log('CLIENT: Game State Received:', gameState);
+      });
+    }
+
+    document.getElementById('connectBtn').addEventListener('click', () => {
+      if (!socket || !socket.connected) {
+        socket = io('http://localhost:3001');
+        setupSocketListeners(socket);
+      } else {
+        console.log('Already connected.');
+      }
+    });
+
+    document.getElementById('createGameBtn').addEventListener('click', () => {
+      if (socket && socket.connected) {
+        const playerName = document.getElementById('playerNameInput').value || 'Anonymous Player';
+        socket.emit('createGame', playerName);
+        console.log(`CLIENT: Emitted 'createGame' with name: ${playerName}`);
+      } else {
+        console.error('Not connected. Click Connect first.');
+      }
+    });
+
+    document.getElementById('joinGameBtn').addEventListener('click', () => {
+      if (socket && socket.connected) {
+        const gameIdToJoin = document.getElementById('gameIdInput').value;
+        const playerName = document.getElementById('playerNameInput').value || 'Anonymous Player';
+        if (gameIdToJoin) {
+          socket.emit('joinGame', gameIdToJoin, playerName);
+          console.log(`CLIENT: Emitted 'joinGame' to ${gameIdToJoin} with name: ${playerName}`);
+        } else {
+          console.error('Please enter a Game ID to join.');
+        }
+      } else {
+        console.error('Not connected. Click Connect first.');
+      }
+    });
+  </script>
+</body>
+</html>
