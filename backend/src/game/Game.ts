@@ -51,7 +51,7 @@ export class Game {
         }
         
         const playerNumber: 1 | 2 = (this.players.size === 0) ? 1 : 2; 
-        this.players.set(playerId, playerNumber); 
+        this.players.set(playerId, playerNumber);
         
         if (this.players.size === 2) {
             this.gameState.status = 'playing';
@@ -81,10 +81,10 @@ export class Game {
             this.ballVelocityY *= -1;
         }
 
-        if (this.ballVelocityX < 0 && 
-            this.gameState.ballX - this.gameState.ballRadius <= PADDLE1_X + PADDLE_WIDTH && 
-            this.gameState.ballX - this.gameState.ballRadius >= PADDLE1_X && 
-            this.gameState.ballY + this.gameState.ballRadius >= this.gameState.player1PaddleY && 
+        if (this.ballVelocityX < 0 &&
+            this.gameState.ballX - this.gameState.ballRadius <= PADDLE1_X + PADDLE_WIDTH &&
+            this.gameState.ballX - this.gameState.ballRadius >= PADDLE1_X &&
+            this.gameState.ballY + this.gameState.ballRadius >= this.gameState.player1PaddleY &&
             this.gameState.ballY - this.gameState.ballRadius <= this.gameState.player1PaddleY + PADDLE_HEIGHT
         ) {
             this.gameState.ballX = PADDLE1_X + PADDLE_WIDTH + this.gameState.ballRadius;
@@ -95,10 +95,10 @@ export class Game {
             this.ballVelocityY = this.ballVelocityY * 0.8 + bounceAngleFactor * BALL_INITIAL_SPEED;
         }
 
-        if (this.ballVelocityX > 0 && 
-            this.gameState.ballX + this.gameState.ballRadius >= PADDLE2_X && 
-            this.gameState.ballX + this.gameState.ballRadius <= PADDLE2_X + PADDLE_WIDTH && 
-            this.gameState.ballY + this.gameState.ballRadius >= this.gameState.player2PaddleY && 
+        if (this.ballVelocityX > 0 &&
+            this.gameState.ballX + this.gameState.ballRadius >= PADDLE2_X &&
+            this.gameState.ballX + this.gameState.ballRadius <= PADDLE2_X + PADDLE_WIDTH &&
+            this.gameState.ballY + this.gameState.ballRadius >= this.gameState.player2PaddleY &&
             this.gameState.ballY - this.gameState.ballRadius <= this.gameState.player2PaddleY + PADDLE_HEIGHT
         ) {
             this.gameState.ballX = PADDLE2_X - this.gameState.ballRadius;
@@ -107,6 +107,15 @@ export class Game {
             const hitPoint = (this.gameState.ballY - this.gameState.player2PaddleY) / PADDLE_HEIGHT;
             const bounceAngleFactor = (hitPoint - 0.5) * 2;
             this.ballVelocityY = this.ballVelocityY * 0.8 + bounceAngleFactor * BALL_INITIAL_SPEED;
+        }
+
+        if (this.gameState.ballX - this.gameState.ballRadius < 0) {
+            this.gameState.player2Score++;
+            this.resetBall(1);
+        }
+        else if (this.gameState.ballX + this.gameState.ballRadius > GAME_WIDTH) {
+            this.gameState.player1Score++;
+            this.resetBall(-1);
         }
     }
 
@@ -134,5 +143,13 @@ export class Game {
 
     getGameState(): GameState {
         return this.gameState;
+    }
+
+    private resetBall(initialHorizontalDirection: 1 | -1) {
+        this.gameState.ballX = GAME_WIDTH / 2;
+        this.gameState.ballY = GAME_HEIGHT / 2;
+        this.ballVelocityX = initialHorizontalDirection * BALL_INITIAL_SPEED;
+        this.ballVelocityY = (Math.random() > 0.5 ? 1 : -1) * BALL_INITIAL_SPEED;
+        this.gameState.status = 'playing';
     }
 }

@@ -173,7 +173,7 @@
     -   When a collision occurs, reverse the `velocityX` of the ball.
     -   Consider adding logic to adjust the `velocityY` based on where the ball hits the paddle.
     -   **Check:** Verify that the ball bounces correctly off the paddles.
--   [ ] **To-do 2.5.4: Implement scoring logic**
+-   [x] **To-do 2.5.4: Implement scoring logic**
     -   In the `updateBall()` method, implement logic to check if the ball has passed the left or right edges of the game area.
     -   If the ball passes the left edge, increment the right player's score. If it passes the right edge, increment the left player's score.
     -   Reset the ball to the center of the game area after a score.
