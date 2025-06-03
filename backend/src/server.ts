@@ -3,6 +3,7 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import path from 'path';
+import { GameManager } from './gameManagement/GameManager';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -15,11 +16,13 @@ const io = new Server(server, {
   },
 });
 
+const gameManager = new GameManager(); // For testing
+
 app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.send('Ping Pong Server is running!');
 });
 
 io.on('connection', (socket) => {

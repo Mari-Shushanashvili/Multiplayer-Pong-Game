@@ -94,13 +94,13 @@
 
 ### Chunk 2.3: Game Session Management
 
--   [ ] **To-do 2.3.1: Create `GameManager` class**
+-   [x] **To-do 2.3.1: Create `GameManager` class**
     -   Create a new directory `backend/src/gameManagement`.
     -   Create a new file `backend/src/gameManagement/GameManager.ts`.
     -   Define a `GameManager` class.
     -   This class should manage multiple game sessions (rooms) and store `Game` instances.
     -   **Check:** Verify that the directory and files are created and the `GameManager` class is defined.
--   [ ] **To-do 2.3.2: Implement `createGame()` method**
+-   [x] **To-do 2.3.2: Implement `createGame()` method**
     -   In the `GameManager` class, implement a `createGame()` method.
     -   This method should:
         -   Create a new `Game` instance.
