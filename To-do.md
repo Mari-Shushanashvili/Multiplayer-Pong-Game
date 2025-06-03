@@ -191,14 +191,14 @@
     -   Call the appropriate paddle movement method in the `Game` class (e.g., `movePaddle1()`, `movePaddle2()`).
     -   After updating the paddle position, emit the updated `gameState` to all clients in the room.
     -   **Check:** Verify that the server correctly receives and handles the `paddle-move` event, updates the paddle position, and broadcasts the new game state.
--   [ ] **To-do 2.6.2: Implement game loop**
+-   [x] **To-do 2.6.2: Implement game loop**
     -   In `backend/src/server.ts`, implement a game loop using `setInterval` to periodically call the `updateBall()` method of the `Game` class for each active game.
     -   The game loop should also emit the updated `gameState` to all clients in the room after updating the ball's position.
     -   **Check:** Verify that the game loop is running and that the ball's position is updated and broadcast to clients at the correct interval.
 
 ### Chunk 2.7: Backend Testing
 
--   [ ] **To-do 2.7.1: Manual testing of game logic**
+-   [x] **To-do 2.7.1: Manual testing of game logic**
     -   Start the backend server.
     -   Use a Socket.IO client (e.g., a simple HTML page or a Socket.IO client library) to:
         -   Connect to the server.
