@@ -210,16 +210,16 @@
 
 ### Chunk 3.1: Frontend Project Setup
 
--   [ ] **To-do 3.1.1: Navigate to the `frontend` directory**
+-   [x] **To-do 3.1.1: Navigate to the `frontend` directory**
     -   Use the command line to navigate to the `frontend` directory: `cd frontend`
     -   **Check:** Verify that the current directory in the terminal is `frontend`.
--   [ ] **To-do 3.1.2: Set up React with Vite**
+-   [x] **To-do 3.1.2: Set up React with Vite**
     -   Run the following command to create a new React project with TypeScript using Vite:
         ```bash
         npm create vite@latest . -- --template react-ts
         ```
     -   **Check:** Verify that a new React project is created in the `frontend` directory.
--   [ ] **To-do 3.1.3: Install Socket.IO client**
+-   [x] **To-do 3.1.3: Install Socket.IO client**
     -   Install the Socket.IO client library: `npm install socket.io-client`
     -   **Check:** Verify that the `socket.io-client` library is installed by checking the `node_modules` directory in `frontend` and the `dependencies` section in `frontend/package.json`.
 
