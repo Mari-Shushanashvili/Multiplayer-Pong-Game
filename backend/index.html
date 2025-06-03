@@ -47,6 +47,10 @@
       s.on('error', (data) => {
         console.error('CLIENT ERROR:', data.message);
       });
+
+      s.on('gameState', (gameState) => {
+        console.log('CLIENT: Game State Received:', gameState);
+      });
     }
 
     document.getElementById('connectBtn').addEventListener('click', () => {

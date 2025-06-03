@@ -144,7 +144,7 @@
         -   Scores of players (`player1Score`, `player2Score`).
         -   Game status (e.g., `active`, `gameOver`).
     -   **Check:** Verify that the `GameState` interface is defined with the correct properties.
--   [ ] **To-do 2.4.2: Update `Game` class to manage `GameState`**
+-   [x] **To-do 2.4.2: Update `Game` class to manage `GameState`**
     -   In the `Game` class in `backend/src/game/Game.ts`:
         -   Add a `gameState`: `GameState` property to the class.
         -   Modify the `initialize()` method (or constructor) to initialize the `gameState` with appropriate starting values.

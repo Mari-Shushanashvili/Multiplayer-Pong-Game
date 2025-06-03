@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
         socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
     } else {
         socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });
-        console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`); // Keep error logs for debugging
+        console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`);
     }
   });
 

@@ -1,33 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-
-// temp
-class Game {
-    id: string;
-    players: Map<string, 1 | 2> = new Map();
-
-    constructor(gameId: string) {
-        this.id = gameId;
-    }
-
-    addPlayer(playerId: string): { success: boolean, playerNumber?: 1 | 2, error?: string } {
-        if (this.players.size >= 2) {
-            return { success: false, error: "Game is full" };
-        }
-        if (this.players.has(playerId)) {
-            return { success: false, error: "Player already in this game." };
-        }
-        
-        const playerNumber: 1 | 2 = (this.players.size === 0) ? 1 : 2; 
-        this.players.set(playerId, playerNumber); 
-        
-        return { success: true, playerNumber };
-    }
-
-    getPlayersCount(): number {
-        return this.players.size;
-    }
-}
-
+import { Game } from '../game/Game';
 
 
 interface JoinResult {
