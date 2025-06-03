@@ -108,7 +108,7 @@
         -   Store the `Game` instance in a data structure (e.g., a `Map`) with the `gameId` as the key.
         -   Return the generated `gameId`.
     -   **Check:** Verify that the `createGame()` method creates a `Game` instance, generates a unique `gameId`, stores it, and returns the `gameId`.
--   [ ] **To-do 2.3.3: Implement `joinGame()` method**
+-   [x] **To-do 2.3.3: Implement `joinGame()` method**
     -   In the `GameManager` class, implement a `joinGame()` method.
     -   This method should:
         -   Take a `gameId` and a `playerId` as arguments.
@@ -118,7 +118,7 @@
         -   If the game is full, return an error message.
         -   If the `Game` instance does not exist, return an error message.
     -   **Check:** Verify that the `joinGame()` method correctly handles joining players, assigns player numbers, and handles full or non-existent games.
--   [ ] **To-do 2.3.4: Modify Socket.IO event handling in `server.ts`**
+-   [x] **To-do 2.3.4: Modify Socket.IO event handling in server.ts**
     -   In `backend/src/server.ts`:
         -   Import the `GameManager` class.
         -   Create an instance of `GameManager`.
