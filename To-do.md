@@ -35,20 +35,20 @@
 
 ### Chunk 2.1: Backend Project Setup
 
--   [ ] **To-do 2.1.1: Navigate to the `backend` directory**
+-   [x] **To-do 2.1.1: Navigate to the `backend` directory**
     -   Use the command line to navigate to the `backend` directory: `cd backend`
     -   **Check:** Verify that the current directory in the terminal is `backend`.
--   [ ] **To-do 2.1.2: Initialize Node.js project**
+-   [x] **To-do 2.1.2: Initialize Node.js project**
     -   Run `npm init -y` to create a `package.json` file with default settings.
     -   **Check:** Verify that the `package.json` file is created in the `backend` directory.
--   [ ] **To-do 2.1.3: Install backend dependencies**
+-   [x] **To-do 2.1.3: Install backend dependencies**
     -   Install the following dependencies:
         -   `express`: For creating the web server.
         -   `socket.io`: For enabling real-time communication.
         -   `cors`: For handling Cross-Origin Resource Sharing.
     -   Command: `npm install express socket.io cors`
     -   **Check:** Verify that the dependencies are installed by checking the `node_modules` directory in `backend` and the `dependencies` section in `backend/package.json`.
--   [ ] **To-do 2.1.4: Install TypeScript development dependencies**
+-   [x] **To-do 2.1.4: Install TypeScript development dependencies**
     -   Install the following development dependencies:
         -   `typescript`: For using TypeScript.
         -   `ts-node`: For running TypeScript files directly during development.
@@ -58,19 +58,17 @@
         -   `@types/socket.io`: TypeScript type definitions for Socket.IO.
     -   Command: `npm install -D typescript ts-node nodemon @types/node @types/express @types/socket.io`
     -   **Check:** Verify that the dev dependencies are installed by checking the `node_modules` directory in `backend` and the `devDependencies` section in `backend/package.json`.
--   [ ] **To-do 2.1.5: Configure TypeScript**
+-   [x] **To-do 2.1.5: Configure TypeScript**
     -   Create a `tsconfig.json` file in the `backend` directory.
     -   **Check:** Verify that the `tsconfig.json` file is created in the `backend` directory and contains the specified configuration.
--   [ ] **To-do 2.1.6: Update `package.json` scripts**
+-   [x] **To-do 2.1.6: Update `package.json` scripts**
     -   Open the `backend/package.json` file.
     -   Modify the `scripts` section to include:
-        ```json
         "scripts": {
           "dev": "nodemon src/server.ts",
           "build": "tsc",
           "start": "node dist/server.js"
         }
-        ```
     -   **Check:** Verify that the `scripts` section in `backend/package.json` is updated correctly.
 
 ### Chunk 2.2: Basic Express and Socket.IO Setup
