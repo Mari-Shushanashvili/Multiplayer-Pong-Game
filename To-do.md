@@ -85,7 +85,7 @@
     -   **Check:** Verify that the `connect` and `disconnect` event handlers are added correctly within the `io.on('connection', ...)` block.
 -   [x] **To-do 2.2.5: Handle `player-join` event**
     -   **Check:** Verify that the `player-join` event handler is added correctly within the `io.on('connection', ...)` block.
--   [ ] **To-do 2.2.6: Test basic Socket.IO connection (Manual)**
+-   [x] **To-do 2.2.6: Test basic Socket.IO connection (Manual)**
     -   Run the backend server using `npm run dev` in the `backend` directory.
     -   Use a Socket.IO client (e.g., a simple HTML page with Socket.IO client included via CDN, or a tool like Postman with Socket.IO plugin) to connect to the server.
     -   Observe the console logs on the backend to verify that `connect` and `disconnect` events are logged correctly.
