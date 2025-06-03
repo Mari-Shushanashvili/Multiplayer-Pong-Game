@@ -134,7 +134,7 @@
 
 ### Chunk 2.4: Core Game State Management
 
--   [ ] **To-do 2.4.1: Define `GameState` interface**
+-   [x] **To-do 2.4.1: Define `GameState` interface**
     -   Create a new directory `backend/src/types`.
     -   Create a new file `backend/src/types/GameState.ts`.
     -   Define a `GameState` interface to represent the current state of the game.
