@@ -5,7 +5,7 @@ export const GAME_HEIGHT = 600;
 const PADDLE_WIDTH = 15;
 const PADDLE_HEIGHT = 100;
 const BALL_RADIUS = 10;
-const PADDLE_SPEED = 8;
+export const PADDLE_SPEED = 8;
 const BALL_INITIAL_SPEED = 5;
 
 export class Game {
@@ -82,10 +82,8 @@ export class Game {
     movePaddle(playerNumber: 1 | 2, deltaY: number) {
         let currentPaddleY = (playerNumber === 1) ? this.gameState.player1PaddleY : this.gameState.player2PaddleY;
         const newPaddleY = currentPaddleY + deltaY;
-
-        const maxPaddleY = GAME_HEIGHT - PADDLE_HEIGHT;
         const minPaddleY = 0;
-
+        const maxPaddleY = GAME_HEIGHT - PADDLE_HEIGHT
         if (newPaddleY < minPaddleY) {
             currentPaddleY = minPaddleY;
         } else if (newPaddleY > maxPaddleY) {

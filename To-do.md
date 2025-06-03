@@ -160,7 +160,7 @@
 
 ### Chunk 2.5: Core Game Mechanics
 
--   [ ] **To-do 2.5.1: Implement paddle movement in `Game` class**
+-   [x] **To-do 2.5.1: Implement paddle movement in `Game` class**
     -   In the `Game` class, implement methods to update the paddle positions (e.g., `movePaddle1(deltaY: number)`, `movePaddle2(deltaY: number)`).
     -   Ensure that the paddle's new position stays within the bounds of the game area.
     -   **Check:** Verify that the paddle movement methods update the paddle positions correctly and prevent them from going out of bounds.

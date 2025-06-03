@@ -4,6 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 // import path from 'path';
 import { GameManager } from './gameManagement/GameManager';
+import { GAME_WIDTH, GAME_HEIGHT, PADDLE_SPEED } from './game/Game';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
