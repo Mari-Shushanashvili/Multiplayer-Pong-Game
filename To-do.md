@@ -4,17 +4,17 @@
 
 ### Chunk 1.1: Project Setup
 
--   [ ] **To-do 1.1.1: Create Git Repository**
+-   [x] **To-do 1.1.1: Create Git Repository**
     -   Create a new repository on your local machine or on a platform like GitHub (e.g., GitHub, GitLab, Bitbucket).
     -   Name the repository: `Multiplayer Pong Game` (or your preferred repository name).
     -   Navigate into the newly created directory using the command line: `cd "Multiplayer Pong Game"` (or the actual directory name if different).
     -   **Check:** Verify that the repository is created successfully and you are in the correct directory in the terminal.
--   [ ] **To-do 1.1.2: Project Directory Setup**
+-   [x] **To-do 1.1.2: Project Directory Setup**
     -   Create the following subdirectories within the root directory:
         -   `backend`: This directory will contain the Node.js server-side code.
         -   `frontend`: This directory will contain the React client-side code.
     -   **Check:** Verify that both `backend` and `frontend` directories are created in the root directory using the file explorer or the `ls` (macOS/Linux) or `dir` (Windows) command in the terminal.
--   [ ] **To-do 1.1.3: Create `.gitignore` file**
+-   [x] **To-do 1.1.3: Create `.gitignore` file**
     -   Create a `.gitignore` file in the root directory.
     -   Add the following entries to the `.gitignore` file:
         ```
@@ -25,7 +25,7 @@
         .env
         ```
     -   **Check:** Verify that the `.gitignore` file is created in the root directory and contains the specified entries. Also, verify that `node_modules` and `dist` directories (if they exist) are not tracked by Git (e.g., their color or status in your IDE or Git client is different).
--   [ ] **To-do 1.1.4: Initial Commit**
+-   [x] **To-do 1.1.4: Initial Commit**
     -   Initialize Git in the root directory (if not already initialized): `git init`
     -   Add all files to the staging area: `git add .`
     -   Commit the changes with an initial commit message: `git commit -m "Initial project setup: directories and .gitignore"`
@@ -60,22 +60,6 @@
     -   **Check:** Verify that the dev dependencies are installed by checking the `node_modules` directory in `backend` and the `devDependencies` section in `backend/package.json`.
 -   [ ] **To-do 2.1.5: Configure TypeScript**
     -   Create a `tsconfig.json` file in the `backend` directory.
-    -   Add the following configuration:
-        ```json
-        {
-          "compilerOptions": {
-            "target": "ES2020",
-            "module": "commonjs",
-            "outDir": "./dist",
-            "rootDir": "./src",
-            "strict": true,
-            "esModuleInterop": true,
-            "skipLibCheck": true
-          },
-          "include": ["src/**/*"],
-          "exclude": ["node_modules", "dist"]
-        }
-        ```
     -   **Check:** Verify that the `tsconfig.json` file is created in the `backend` directory and contains the specified configuration.
 -   [ ] **To-do 2.1.6: Update `package.json` scripts**
     -   Open the `backend/package.json` file.
