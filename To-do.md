@@ -73,17 +73,17 @@
 
 ### Chunk 2.2: Basic Express and Socket.IO Setup
 
--   [ ] **To-do 2.2.1: Create `backend/src/server.ts`**
+-   [x] **To-do 2.2.1: Create `backend/src/server.ts`**
     -   Create a `src` directory inside the `backend` directory.
     -   Create a `server.ts` file inside the `src` directory.
     -   **Check:** Verify that the `src` directory and the `server.ts` file are created in the correct locations.
--   [ ] **To-do 2.2.2: Implement basic Express server**
--   [ ] **To-do 2.2.3: Integrate Socket.IO**
+-   [x] **To-do 2.2.2: Implement basic Express server**
+-   [x] **To-do 2.2.3: Integrate Socket.IO**
     -   Modify `backend/src/server.ts` to integrate Socket.IO
     -   **Check:** Verify that the code is modified in `backend/src/server.ts` correctly, including the `http` and `socket.io` imports, server creation, and Socket.IO server initialization.
--   [ ] **To-do 2.2.4: Handle `connect` and `disconnect` events**
+-   [x] **To-do 2.2.4: Handle `connect` and `disconnect` events**
     -   **Check:** Verify that the `connect` and `disconnect` event handlers are added correctly within the `io.on('connection', ...)` block.
--   [ ] **To-do 2.2.5: Handle `player-join` event**
+-   [x] **To-do 2.2.5: Handle `player-join` event**
     -   **Check:** Verify that the `player-join` event handler is added correctly within the `io.on('connection', ...)` block.
 -   [ ] **To-do 2.2.6: Test basic Socket.IO connection (Manual)**
     -   Run the backend server using `npm run dev` in the `backend` directory.
