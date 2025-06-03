@@ -182,7 +182,7 @@
 
 ### Chunk 2.6: Socket.IO Event Handling for Game Logic
 
--   [ ] **To-do 2.6.1: Handle `paddle-move` event**
+-   [x] **To-do 2.6.1: Handle `paddle-move` event**
     -   In `backend/src/server.ts`, add a Socket.IO event listener for the `paddle-move` event.
     -   The event data should include:
         -   `gameId`: The ID of the game being played.

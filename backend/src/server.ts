@@ -53,6 +53,29 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('paddleMove', (data: { gameId: string, deltaY: number }) => {
+    const { gameId, deltaY } = data;
+    const game = gameManager.getGame(gameId);
+
+    if (!game) {
+      return;
+    }
+
+    let playerNumber: 1 | 2 | undefined;
+    for (const [id, num] of game.players.entries()) {
+        if (id === socket.id) {
+            playerNumber = num;
+            break;
+        }
+    }
+
+    if (playerNumber) {
+      game.movePaddle(playerNumber, deltaY);
+      io.to(gameId).emit('gameState', game.getGameState());
+    } else {
+    }
+  });
+
   socket.on('disconnect', () => {
   });
 });
