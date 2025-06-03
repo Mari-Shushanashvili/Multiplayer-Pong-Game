@@ -26,7 +26,6 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-
   socket.on('createGame', (playerName: string) => {
     const gameId = gameManager.createGame();
     const addPlayerResult = gameManager.getGame(gameId)?.addPlayer(socket.id);
