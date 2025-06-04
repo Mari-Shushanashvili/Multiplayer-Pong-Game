@@ -242,22 +242,22 @@
     -   This component will be responsible for rendering the game elements (paddles, ball, game area).
     -   Use a `<canvas>` element or SVG for rendering.
     -   **Check:** Verify that the `GameCanvas` component is created and a `<canvas>` element or SVG is present.
--   [ ] **To-do 3.2.3: Create `Paddle` component**
+-   [x] **To-do 3.2.3: Create `Paddle` component**
     -   Create a new file `frontend/src/components/Paddle.tsx`.
     -   Implement the `Paddle` component.
     -   This component should render a rectangle representing a paddle.
     -   **Check:** Verify that the `Paddle` component is created and renders a rectangle.
--   [ ] **To-do 3.2.4: Create `Ball` component**
+-   [x] **To-do 3.2.4: Create `Ball` component**
     -   Create a new file `frontend/src/components/Ball.tsx`.
     -   Implement the `Ball` component.
     -   This component should render a circle or a rectangle representing the ball.
     -   **Check:** Verify that the `Ball` component is created and renders a circle or rectangle.
--   [ ] **To-do 3.2.5: Create `Scoreboard` component**
+-   [x] **To-do 3.2.5: Create `Scoreboard` component**
     -   Create a new file `frontend/src/components/Scoreboard.tsx`.
     -   Implement the `Scoreboard` component.
     -   This component should display the scores of both players (e.g., "First: 0 vs Second: 0").
     -   **Check:** Verify that the `Scoreboard` component is created and displays the scores correctly.
--   [ ] **To-do 3.2.6: Create `ErrorMessage` component**
+-   [x] **To-do 3.2.6: Create `ErrorMessage` component**
     -   Create a new file `frontend/src/components/ErrorMessage.tsx`.
     -   Implement the `ErrorMessage` component.
     -   This component should display error messages received from the server.

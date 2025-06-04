@@ -1,5 +1,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
-import type { GameState, GameStatus } from '../types/GameState';
+import { type GameState, type GameStatus } from '../types/GameState';
+import Paddle from './Paddle';
+import Ball from './Ball';
 import './GameCanvas.css';
 
 /**
@@ -37,8 +39,9 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ gameState }) => {
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
       ctx.fillText('Waiting for players...', canvas.width / 2, canvas.height / 2);
-      return;
-    }
+      return; }
+
+
 
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -51,38 +54,36 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ gameState }) => {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    ctx.fillStyle = 'white';
-    ctx.fillRect(
-      0,
-      gameState.player1PaddleY,
-      gameState.paddleWidth,
-      gameState.paddleHeight
-    );
-
-    ctx.fillRect(
-      gameState.gameWidth - gameState.paddleWidth,
-      gameState.player2PaddleY,
-      gameState.paddleWidth,
-      gameState.paddleHeight
-    );
-
-    ctx.beginPath();
-    ctx.arc(
-      gameState.ballX,
-      gameState.ballY,
-      gameState.ballRadius,
-      0,
-      Math.PI * 2
-    );
-    ctx.fillStyle = 'white';
-    ctx.fill();
-    ctx.closePath();
 
   }, [gameState]);
 
   return (
     <div className="game-canvas-container">
       <canvas ref={canvasRef} className="game-canvas-element"></canvas>
+      {}
+      {gameState && (
+        <>
+          <Paddle
+            x={0}
+            y={gameState.player1PaddleY}
+            width={gameState.paddleWidth}
+            height={gameState.paddleHeight}
+            playerNumber={1}
+          />
+          <Paddle
+            x={gameState.gameWidth - gameState.paddleWidth}
+            y={gameState.player2PaddleY}
+            width={gameState.paddleWidth}
+            height={gameState.paddleHeight}
+            playerNumber={2}
+          />
+          <Ball
+            x={gameState.ballX}
+            y={gameState.ballY}
+            radius={gameState.ballRadius}
+          />
+        </>
+      )}
     </div>
   );
 };

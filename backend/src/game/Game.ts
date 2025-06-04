@@ -103,11 +103,25 @@ export class Game {
             this.ballVelocityY *= -1;
         }
 
+        const ballLeft = this.gameState.ballX - this.gameState.ballRadius;
+        const ballRight = this.gameState.ballX + this.gameState.ballRadius;
+        const ballTop = this.gameState.ballY - this.gameState.ballRadius;
+        const ballBottom = this.gameState.ballY + this.gameState.ballRadius;
+
+        const p1PaddleRight = PADDLE1_X + PADDLE_WIDTH;
+        const p1PaddleTop = this.gameState.player1PaddleY;
+        const p1PaddleBottom = this.gameState.player1PaddleY + PADDLE_HEIGHT;
+
+        const p2PaddleLeft = PADDLE2_X;
+        const p2PaddleRight = PADDLE2_X + PADDLE_WIDTH;
+        const p2PaddleTop = this.gameState.player2PaddleY;
+        const p2PaddleBottom = this.gameState.player2PaddleY + PADDLE_HEIGHT;
+
         if (this.ballVelocityX < 0 && 
-            this.gameState.ballX - this.gameState.ballRadius <= PADDLE1_X + PADDLE_WIDTH && 
-            this.gameState.ballX - this.gameState.ballRadius >= PADDLE1_X && 
-            this.gameState.ballY + this.gameState.ballRadius >= this.gameState.player1PaddleY && 
-            this.gameState.ballY - this.gameState.ballRadius <= this.gameState.player1PaddleY + PADDLE_HEIGHT
+            ballRight >= PADDLE1_X && 
+            ballLeft <= p1PaddleRight && 
+            ballBottom >= p1PaddleTop && 
+            ballTop <= p1PaddleBottom
         ) {
             this.gameState.ballX = PADDLE1_X + PADDLE_WIDTH + this.gameState.ballRadius;
             this.ballVelocityX *= -1;
@@ -118,10 +132,10 @@ export class Game {
         }
 
         if (this.ballVelocityX > 0 && 
-            this.gameState.ballX + this.gameState.ballRadius >= PADDLE2_X && 
-            this.gameState.ballX + this.gameState.ballRadius <= PADDLE2_X + PADDLE_WIDTH && 
-            this.gameState.ballY + this.gameState.ballRadius >= this.gameState.player2PaddleY && 
-            this.gameState.ballY - this.gameState.ballRadius <= this.gameState.player2PaddleY + PADDLE_HEIGHT
+            ballLeft <= p2PaddleRight && 
+            ballRight >= p2PaddleLeft && 
+            ballBottom >= p2PaddleTop && 
+            ballTop <= p2PaddleBottom
         ) {
             this.gameState.ballX = PADDLE2_X - this.gameState.ballRadius;
             this.ballVelocityX *= -1;
