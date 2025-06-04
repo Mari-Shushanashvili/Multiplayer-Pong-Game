@@ -1,0 +1,19 @@
+.game-canvas-container {
+  width: 800px;
+  height: 600px;
+  background-color: #333;
+  border: 2px solid #555;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px auto;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-canvas-element {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}

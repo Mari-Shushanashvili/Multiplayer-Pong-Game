@@ -225,7 +225,7 @@
 
 ### Chunk 3.2: Frontend Components
 
--   [ ] **To-do 3.2.1: Create `Lobby` component**
+-   [x] **To-do 3.2.1: Create `Lobby` component**
     -   Create a new directory `frontend/src/components`.
     -   Create a new file `frontend/src/components/Lobby.tsx`.
     -   Implement the `Lobby` component.
@@ -236,7 +236,7 @@
         -   A button to join the game.
         -   Instructions on how to play.
     -   **Check:** Verify that the `Lobby` component is created and displays the correct UI elements.
--   [ ] **To-do 3.2.2: Create `GameCanvas` component**
+-   [x] **To-do 3.2.2: Create `GameCanvas` component**
     -   Create a new file `frontend/src/components/GameCanvas.tsx`.
     -   Implement the `GameCanvas` component.
     -   This component will be responsible for rendering the game elements (paddles, ball, game area).
