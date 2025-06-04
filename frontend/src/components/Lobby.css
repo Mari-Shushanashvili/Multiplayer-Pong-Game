@@ -7,58 +7,65 @@
   background-color: #1a202c;
   color: #fff;
   padding: 1rem;
+  border-radius: 0.75rem;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .lobby-card {
   background-color: #2d3748;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  max-width: 28rem;
+  padding: 2.5rem 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2), 0 5px 10px -5px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
   width: 100%;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .lobby-title {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
   color: #63b3ed;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.05em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .lobby-subtitle {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: #a0aec0;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .player-input-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .player-input-label {
   display: block;
   color: #a0aec0;
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .player-input-field {
   width: 100%;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
   background-color: #4a5568;
   border: 1px solid #4a5568;
   outline: none;
-  font-size: 1.125rem;
+  font-size: 1rem;
   color: #fff;
+  box-sizing: border-box;
 }
 
 .player-input-field:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.6);
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.7);
+  border-color: #63b3ed;
 }
 
 .join-button {
@@ -66,40 +73,42 @@
   background-color: #3182ce;
   color: #fff;
   font-weight: 700;
-  padding: 0.75rem 1rem;
-  border-radius: 0.375rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 0.5rem;
   transition: all 0.3s ease-in-out;
   transform: scale(1);
-  font-size: 1.25rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  font-size: 1.35rem;
+  box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.2), 0 3px 7px -2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  border: none;
 }
 
 .join-button:hover {
   background-color: #2b6cb0;
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .instructions-section {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   text-align: left;
   border-top: 1px solid #4a5568;
-  padding-top: 1.5rem;
+  padding-top: 1.75rem;
 }
 
 .instructions-title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: #63b3ed;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .instructions-list {
   list-style-type: disc;
   list-style-position: inside;
   color: #a0aec0;
-  font-size: 1.125rem;
+  font-size: 0.95rem;
 }
 
 .instructions-list li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }

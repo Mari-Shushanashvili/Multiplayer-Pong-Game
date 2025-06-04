@@ -4,7 +4,6 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 // import path from 'path';
 import { GameManager } from './gameManagement/GameManager';
-import { GAME_WIDTH, GAME_HEIGHT, PADDLE_SPEED } from './game/Game';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -21,6 +20,7 @@ const io = new Server(server, {
   cors: {
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST'],
+    credentials: true
   },
 });
 
@@ -49,24 +49,12 @@ io.on('connection', (socket) => {
     const addPlayerResult = gameManager.getGame(gameId)?.addPlayer(socket.id);
 
     if (addPlayerResult?.success) {
-        socket.join(gameId);
-        /**
-         * Emits a 'gameCreated' event back to the creating client.
-         * @param data - An object containing:
-         * - gameId: The ID of the newly created game.
-         * - playerNumber: The player number assigned to the creator (typically 1).
-         * - playerName: The name of the player.
-         */
-        socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
-        gameManager.startGameLoop(gameId, io); 
+      socket.join(gameId);
+      socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
+      gameManager.startGameLoop(gameId, io);
     } else {
-        /**
-         * Emits an 'error' event back to the client if game creation or player addition fails.
-         * @param data - An object containing:
-         * - message: A descriptive error message.
-         */
-        socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });
-        console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`);
+      socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });
+      console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`);
     }
   });
 
@@ -131,16 +119,15 @@ io.on('connection', (socket) => {
 
     let playerNumber: 1 | 2 | undefined;
     for (const [id, num] of game.players.entries()) {
-        if (id === socket.id) {
-            playerNumber = num;
-            break;
-        }
+      if (id === socket.id) {
+        playerNumber = num;
+        break;
+      }
     }
 
     if (playerNumber) {
       game.movePaddle(playerNumber, deltaY);
       io.to(gameId).emit('gameState', game.getGameState());
-    } else {
     }
   });
 

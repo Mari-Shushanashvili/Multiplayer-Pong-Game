@@ -265,12 +265,12 @@
 
 ### Chunk 3.3: Socket.IO Integration (Frontend)
 
--   [ ] **To-do 3.3.1: Connect to Socket.IO server**
+-   [x] **To-do 3.3.1: Connect to Socket.IO server**
     -   In `frontend/src/App.tsx`, import the `io` function from `socket.io-client`.
     -   Establish a connection to the backend server (e.g., `const socket = io('http://localhost:3001');`).
     -   Store the `socket` instance in a state variable for later use.
     -   **Check:** Verify that the connection to the server is established and the `socket` instance is stored in the state.
--   [ ] **To-do 3.3.2: Handle `connect` and `disconnect` events**
+-   [x] **To-do 3.3.2: Handle `connect` and `disconnect` events**
     -   In `frontend/src/App.tsx`, add event listeners for the `connect` and `disconnect` events.
     -   Log messages to the console when these events occur.
     -   Potentially update the UI to reflect the connection status.

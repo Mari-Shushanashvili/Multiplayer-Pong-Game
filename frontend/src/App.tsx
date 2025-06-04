@@ -1,27 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-
+import { io, Socket } from 'socket.io-client';
 import Lobby from './components/Lobby';
 
-const TESTING_GAMECANVAS_MODE = false;
-
 function App() {
-  if (TESTING_GAMECANVAS_MODE) {
-    return <div style={{ color: 'red' }}>Error: TESTING_GAMECANVAS_MODE is TRUE but should be FALSE for clean code!</div>;
-  }
+  const [socket, setSocket] = useState<Socket | null>(null);
 
-  else {
-    const handleJoinGame = (playerName: string) => {
-      console.log(`Player ${playerName} wants to join the game! (Will connect to backend soon)`);
-      alert(`Hello, ${playerName}! Your game will start soon.`);
-    };
+  useEffect(() => {
+    if (socket) {
+      socket.on('connect', () => {
+        console.log('FRONTEND: Connected to server with ID:', socket.id);
+      });
 
-    return (
-      <div className="App">
-        <Lobby onJoinGame={handleJoinGame} />
-      </div>
-    );
-  }
+      socket.on('disconnect', () => {
+        console.log('FRONTEND: Disconnected from server.');
+      });
+
+      return () => {
+        socket.off('connect');
+        socket.off('disconnect');
+        if (socket.connected) {
+          socket.disconnect();
+        }
+      };
+    }
+  }, [socket]);
+
+  const handleJoinGame = (playerName: string) => {
+    console.log(`Player ${playerName} wants to join the game!`);
+
+    if (!socket || !socket.connected) {
+      const newSocket = io('http://localhost:3001');
+      setSocket(newSocket);
+      console.log("FRONTEND: Attempting to connect to Socket.IO server...");
+    } else {
+      console.log("FRONTEND: Already connected. Not initiating new connection.");
+    }
+  };
+
+  return (
+    <div className="App">
+      <Lobby onJoinGame={handleJoinGame} />
+    </div>
+  );
 }
 
 export default App;
