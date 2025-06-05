@@ -51,6 +51,7 @@ io.on('connection', (socket) => {
     if (addPlayerResult?.success) {
       socket.join(gameId);
       socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
+      gameManager.playerGameMap.set(socket.id, gameId);
       gameManager.startGameLoop(gameId, io);
     } else {
       socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });

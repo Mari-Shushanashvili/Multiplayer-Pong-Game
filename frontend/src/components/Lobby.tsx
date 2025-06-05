@@ -6,39 +6,64 @@ import './Lobby.css';
  * Defines the properties that the parent component will pass to Lobby.
  */
 interface LobbyProps {
-  onJoinGame: (playerName: string) => void;
+  /**
+   * Callback function to be invoked when the "Join Game" or "Create Game" button is clicked.
+   * It receives the player's name and an optional gameId as arguments.
+   * If gameId is provided, it's a join action; otherwise, it's a create action.
+   */
+  onJoinGame: (playerName: string, gameId?: string) => void;
 }
 
 /**
  * The Lobby component serves as the initial screen for players.
- * It allows them to enter their name and initiate joining a game.
+ * It allows them to enter their name and choose to create or join a game.
  * @param {LobbyProps} props - The properties passed to the component.
  */
 const Lobby: React.FC<LobbyProps> = ({ onJoinGame }) => {
   const [playerName, setPlayerName] = useState<string>('');
+  const [gameId, setGameId] = useState<string>('');
 
   /**
-   * Handles the click event of the "Join Game" button.
-   * Prevents default form submission, trims the player name,
-   * and calls the onJoinGame callback if the name is not empty.
+   * Handles the click event of the "Create New Game" button.
+   * Validates player name and calls onJoinGame without a gameId.
    */
-  const handleJoinClick = () => {
+  const handleCreateClick = () => {
     const trimmedName = playerName.trim();
     if (trimmedName) {
       onJoinGame(trimmedName);
     } else {
-      alert('Please enter your name to join the game!');
+      alert('Please enter your name to create a game!');
     }
   };
 
   /**
-   * Handles the key press event on the input field.
-   * Triggers handleJoinClick if the Enter key is pressed.
+   * Handles the click event of the "Join Existing Game" button.
+   * Validates both player name and gameId, then calls onJoinGame with both.
+   */
+  const handleJoinExistingClick = () => {
+    const trimmedName = playerName.trim();
+    const trimmedGameId = gameId.trim();
+    if (!trimmedName) {
+      alert('Please enter your name to join a game!');
+    } else if (!trimmedGameId) {
+      alert('Please enter a Game ID to join!');
+    } else {
+      onJoinGame(trimmedName, trimmedGameId);
+    }
+  };
+
+  /**
+   * Handles the key press event on either input field.
+   * Triggers the appropriate action if the Enter key is pressed.
    * @param e - The keyboard event.
    */
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleJoinClick();
+      if (e.currentTarget.id === 'gameIdInput' && gameId.trim()) {
+        handleJoinExistingClick();
+      } else if (e.currentTarget.id === 'playerName' && playerName.trim()) {
+        handleCreateClick();
+      }
     }
   };
 
@@ -63,11 +88,33 @@ const Lobby: React.FC<LobbyProps> = ({ onJoinGame }) => {
           />
         </div>
 
+        <div className="player-input-group player-input-group-secondary">
+          <label htmlFor="gameIdInput" className="player-input-label">
+            Game ID (optional, to join specific game):
+          </label>
+          <input
+            type="text"
+            id="gameIdInput"
+            className="player-input-field"
+            placeholder="Enter game ID to join"
+            value={gameId}
+            onChange={(e) => setGameId(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+        </div>
+
         <button
-          onClick={handleJoinClick}
-          className="join-button"
+          onClick={handleCreateClick}
+          className="join-button button-create" 
         >
-          Join Game
+          Create New Game
+        </button>
+
+        <button
+          onClick={handleJoinExistingClick}
+          className="join-button button-join-existing"
+        >
+          Join Existing Game
         </button>
 
         <div className="instructions-section">

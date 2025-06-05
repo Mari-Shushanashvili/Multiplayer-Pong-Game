@@ -18,10 +18,9 @@ interface JoinResult {
 export class GameManager {
   private games: Map<string, Game> = new Map();
   private activeGameLoops: Map<string, NodeJS.Timeout> = new Map();
-  private playerGameMap: Map<string, string> = new Map();
+  public playerGameMap: Map<string, string> = new Map();
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * Creates a new game session.
@@ -48,25 +47,25 @@ export class GameManager {
     }
 
     if (game.players.has(playerId)) {
-        return { success: false, error: "Player already in this game." };
+      return { success: false, error: "Player already in this game." };
     }
 
     const addPlayerResult = game.addPlayer(playerId);
     if (!addPlayerResult.success) {
-        return { success: false, error: addPlayerResult.error };
+      return { success: false, error: addPlayerResult.error };
     }
 
     this.playerGameMap.set(playerId, gameId);
     return { success: true, playerNumber: addPlayerResult.playerNumber };
   }
-  
+
   /**
    * Retrieves a game instance by its ID.
    * @param gameId - The ID of the game to retrieve.
    * @returns The Game instance if found, otherwise undefined.
    */
   getGame(gameId: string): Game | undefined {
-      return this.games.get(gameId);
+    return this.games.get(gameId);
   }
 
   /**
@@ -76,16 +75,16 @@ export class GameManager {
    * @returns True if the game was removed, false otherwise.
    */
   removeGame(gameId: string): boolean {
-      const gameRemoved = this.games.delete(gameId);
-      if (gameRemoved) {
-          this.stopGameLoop(gameId);
-          for (const [playerId, mapGameId] of this.playerGameMap.entries()) {
-              if (mapGameId === gameId) {
-                  this.playerGameMap.delete(playerId);
-              }
-          }
+    const gameRemoved = this.games.delete(gameId);
+    if (gameRemoved) {
+      this.stopGameLoop(gameId);
+      for (const [playerId, mapGameId] of this.playerGameMap.entries()) {
+        if (mapGameId === gameId) {
+          this.playerGameMap.delete(playerId);
+        }
       }
-      return gameRemoved;
+    }
+    return gameRemoved;
   }
 
   /**
@@ -95,18 +94,24 @@ export class GameManager {
    * @param ioInstance - The Socket.IO server instance for broadcasting.
    */
   startGameLoop(gameId: string, ioInstance: Server) {
-      const game = this.games.get(gameId);
-      if (!game || this.activeGameLoops.has(gameId)) {
-          return; 
-      }
+    const game = this.games.get(gameId);
+    if (!game || this.activeGameLoops.has(gameId)) {
+      return;
+    }
 
-      const gameLoopInterval = setInterval(() => {
-          game.updateBall(1);
-          const gameState = game.getGameState();
-          ioInstance.to(gameId).emit('gameState', gameState);
-      }, 1000 / 60);
+    let lastUpdateTime = Date.now();
 
-      this.activeGameLoops.set(gameId, gameLoopInterval);
+    const gameLoopInterval = setInterval(() => {
+      const currentTime = Date.now();
+      const deltaTime = (currentTime - lastUpdateTime) / (1000 / 60);
+      lastUpdateTime = currentTime;
+
+      game.updateBall(deltaTime);
+      const gameState = game.getGameState();
+      ioInstance.to(gameId).emit('gameState', gameState);
+    }, 1000 / 60);
+
+    this.activeGameLoops.set(gameId, gameLoopInterval);
   }
 
   /**
@@ -114,11 +119,11 @@ export class GameManager {
    * @param gameId - The ID of the game whose loop to stop.
    */
   stopGameLoop(gameId: string) {
-      const interval = this.activeGameLoops.get(gameId);
-      if (interval) {
-          clearInterval(interval);
-          this.activeGameLoops.delete(gameId);
-      }
+    const interval = this.activeGameLoops.get(gameId);
+    if (interval) {
+      clearInterval(interval);
+      this.activeGameLoops.delete(gameId);
+    }
   }
 
   /**
@@ -127,19 +132,18 @@ export class GameManager {
    * @param playerId - The Socket.IO ID of the disconnected player.
    */
   stopGameLoopIfGameEmpty(playerId: string) {
-      const gameId = this.playerGameMap.get(playerId);
-      if (gameId) {
-          const game = this.games.get(gameId);
-          if (game) {
-              game.players.delete(playerId);
-              this.playerGameMap.delete(playerId);
+    const gameId = this.playerGameMap.get(playerId);
+    if (gameId) {
+      const game = this.games.get(gameId);
+      if (game) {
+        game.players.delete(playerId);
+        this.playerGameMap.delete(playerId);
 
-              if (game.players.size === 0) {
-                  this.stopGameLoop(gameId);
-                  this.games.delete(gameId);
-              } else {
-              }
-          }
+        if (game.players.size === 0) {
+          this.stopGameLoop(gameId);
+          this.games.delete(gameId);
+        }
       }
+    }
   }
 }

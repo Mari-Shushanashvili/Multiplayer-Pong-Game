@@ -46,7 +46,8 @@
         -   `express`: For creating the web server.
         -   `socket.io`: For enabling real-time communication.
         -   `cors`: For handling Cross-Origin Resource Sharing.
-    -   Command: `npm install express socket.io cors`
+        -   `uuid`: For generating unique IDs.
+    -   Command: `npm install express cors socket.io uuid`
     -   **Check:** Verify that the dependencies are installed by checking the `node_modules` directory in `backend` and the `dependencies` section in `backend/package.json`.
 -   [x] **To-do 2.1.4: Install TypeScript development dependencies**
     -   Install the following development dependencies:
@@ -56,19 +57,23 @@
         -   `@types/node`: TypeScript type definitions for Node.js.
         -   `@types/express`: TypeScript type definitions for Express.
         -   `@types/socket.io`: TypeScript type definitions for Socket.IO.
-    -   Command: `npm install -D typescript ts-node nodemon @types/node @types/express @types/socket.io`
+        -   `@types/uuid`: TypeScript type definitions for uuid.
+    -   Command: `npm install -D typescript ts-node nodemon @types/node @types/express @types/socket.io @types/uuid`
     -   **Check:** Verify that the dev dependencies are installed by checking the `node_modules` directory in `backend` and the `devDependencies` section in `backend/package.json`.
 -   [x] **To-do 2.1.5: Configure TypeScript**
     -   Create a `tsconfig.json` file in the `backend` directory.
+    -   Add the necessary configuration (as provided previously).
     -   **Check:** Verify that the `tsconfig.json` file is created in the `backend` directory and contains the specified configuration.
 -   [x] **To-do 2.1.6: Update `package.json` scripts**
     -   Open the `backend/package.json` file.
     -   Modify the `scripts` section to include:
+        ```json
         "scripts": {
           "dev": "nodemon src/server.ts",
           "build": "tsc",
           "start": "node dist/server.js"
         }
+        ```
     -   **Check:** Verify that the `scripts` section in `backend/package.json` is updated correctly.
 
 ### Chunk 2.2: Basic Express and Socket.IO Setup
@@ -78,133 +83,90 @@
     -   Create a `server.ts` file inside the `src` directory.
     -   **Check:** Verify that the `src` directory and the `server.ts` file are created in the correct locations.
 -   [x] **To-do 2.2.2: Implement basic Express server**
+    -   Open `backend/src/server.ts` and add the basic Express server setup code.
+    -   **Check:** Verify that the code is added to `backend/src/server.ts` correctly.
 -   [x] **To-do 2.2.3: Integrate Socket.IO**
-    -   Modify `backend/src/server.ts` to integrate Socket.IO
+    -   Modify `backend/src/server.ts` to integrate Socket.IO, creating an HTTP server and attaching Socket.IO to it.
     -   **Check:** Verify that the code is modified in `backend/src/server.ts` correctly, including the `http` and `socket.io` imports, server creation, and Socket.IO server initialization.
 -   [x] **To-do 2.2.4: Handle `connect` and `disconnect` events**
+    -   Add basic `io.on('connection')` and `socket.on('disconnect')` event handlers in `backend/src/server.ts`.
     -   **Check:** Verify that the `connect` and `disconnect` event handlers are added correctly within the `io.on('connection', ...)` block.
 -   [x] **To-do 2.2.5: Handle `player-join` event**
+    -   Add a `socket.on('player-join')` event handler in `backend/src/server.ts` (this will be removed in favor of `createGame`/`joinGame` later).
     -   **Check:** Verify that the `player-join` event handler is added correctly within the `io.on('connection', ...)` block.
 -   [x] **To-do 2.2.6: Test basic Socket.IO connection (Manual)**
-    -   Run the backend server using `npm run dev` in the `backend` directory.
-    -   Use a Socket.IO client (e.g., a simple HTML page with Socket.IO client included via CDN, or a tool like Postman with Socket.IO plugin) to connect to the server.
-    -   Observe the console logs on the backend to verify that `connect` and `disconnect` events are logged correctly.
-    -   Emit a `player-join` event from the client with a player name and verify that the server logs the name correctly.
+    -   Run the backend server. Use a temporary HTML page with Socket.IO client or browser console to connect and emit `player-join`.
+    -   Observe backend console logs.
     -   **Check:** Verify that the server logs the connection, disconnection, and player join events correctly in the terminal.
 
 ### Chunk 2.3: Game Session Management
 
 -   [x] **To-do 2.3.1: Create `GameManager` class**
-    -   Create a new directory `backend/src/gameManagement`.
-    -   Create a new file `backend/src/gameManagement/GameManager.ts`.
-    -   Define a `GameManager` class.
-    -   This class should manage multiple game sessions (rooms) and store `Game` instances.
+    -   Create `backend/src/gameManagement` directory and `GameManager.ts` file.
+    -   Define a `GameManager` class to manage game sessions and `Game` instances.
     -   **Check:** Verify that the directory and files are created and the `GameManager` class is defined.
 -   [x] **To-do 2.3.2: Implement `createGame()` method**
-    -   In the `GameManager` class, implement a `createGame()` method.
-    -   This method should:
-        -   Create a new `Game` instance.
-        -   Generate a unique `gameId` (e.g., using `uuid` library).
-        -   Store the `Game` instance in a data structure (e.g., a `Map`) with the `gameId` as the key.
-        -   Return the generated `gameId`.
-    -   **Check:** Verify that the `createGame()` method creates a `Game` instance, generates a unique `gameId`, stores it, and returns the `gameId`.
+    -   In the `GameManager` class, implement `createGame()` to create a `Game` instance, generate a `gameId`, and store it.
+    -   **Check:** Verify that `createGame()` works as expected.
 -   [x] **To-do 2.3.3: Implement `joinGame()` method**
-    -   In the `GameManager` class, implement a `joinGame()` method.
-    -   This method should:
-        -   Take a `gameId` and a `playerId` as arguments.
-        -   Retrieve the `Game` instance associated with the `gameId` from the storage.
-        -   If the `Game` instance exists and has less than two players, add the `playerId` to the `Game` instance.
-        -   Assign a player number (1 or 2) to the joining player.
-        -   If the game is full, return an error message.
-        -   If the `Game` instance does not exist, return an error message.
-    -   **Check:** Verify that the `joinGame()` method correctly handles joining players, assigns player numbers, and handles full or non-existent games.
--   [x] **To-do 2.3.4: Modify Socket.IO event handling in server.ts**
-    -   In `backend/src/server.ts`:
-        -   Import the `GameManager` class.
-        -   Create an instance of `GameManager`.
-        -   Implement a Socket.IO event listener for `'createGame'`:
-            -   When a client emits `'createGame'`, call the `createGame()` method of the `GameManager`.
-            -   Emit a `'gameCreated'` event to the client with the generated `gameId`.
-            -   Have the client join a Socket.IO room with the `gameId` (using `socket.join(gameId)`).
-        -   Implement a Socket.IO event listener for `'joinGame'`:
-            -   When a client emits `'joinGame'` with a `gameId`, call the `joinGame()` method of the `GameManager`.
-            -   If `joinGame()` is successful, emit a `'joinedGame'` event to the client with the assigned player number.
-            -   If `joinGame()` fails, emit an `'error'` event to the client with an appropriate error message.
-    -   **Check:** Verify that the `'createGame'` and `'joinGame'` events are handled correctly, game IDs are generated, clients join rooms, and errors are handled.
+    -   In the `GameManager` class, implement `joinGame()` to add players to a game, assign player numbers, and handle full/non-existent games.
+    -   **Check:** Verify that `joinGame()` handles player joining and error conditions correctly.
+-   [x] **To-do 2.3.4: Modify Socket.IO event handling in `server.ts`**
+    -   In `backend/src/server.ts`, import and instantiate `GameManager`.
+    -   Implement `socket.on('createGame')` and `socket.on('joinGame')` to use `GameManager` methods.
+    -   **Check:** Verify that `createGame` and `joinGame` events are handled, clients join rooms, and errors are handled.
 
 ### Chunk 2.4: Core Game State Management
 
 -   [x] **To-do 2.4.1: Define `GameState` interface**
-    -   Create a new directory `backend/src/types`.
-    -   Create a new file `backend/src/types/GameState.ts`.
-    -   Define a `GameState` interface to represent the current state of the game.
-    -   This interface should include properties for:
-        -   Positions of paddles (e.g., `paddle1Y`, `paddle2Y`).
-        -   Position of the ball (`ballX`, `ballY`).
-        -   Scores of players (`player1Score`, `player2Score`).
-        -   Game status (e.g., `active`, `gameOver`).
+    -   Create `backend/src/types` directory and `GameState.ts` file.
+    -   Define `GameState` interface including properties for ball, paddles, scores, status, and game dimensions.
     -   **Check:** Verify that the `GameState` interface is defined with the correct properties.
 -   [x] **To-do 2.4.2: Update `Game` class to manage `GameState`**
-    -   In the `Game` class in `backend/src/game/Game.ts`:
-        -   Add a `gameState`: `GameState` property to the class.
-        -   Modify the `initialize()` method (or constructor) to initialize the `gameState` with appropriate starting values.
-        -   Modify the `updateBall()` method to update the `gameState` properties (ball position, scores) instead of directly manipulating variables.
-        -   Implement methods to update paddle positions within the `Game` class (e.g., `movePaddle1(deltaY: number)`, `movePaddle2(deltaY: number)`) and update the `gameState` accordingly.
-        -   Modify the `getGameState()` method to return the `gameState` object.
-    -   **Check:** Verify that the `Game` class manages the `GameState` correctly, including initialization, updating ball and paddle positions, and providing the current state.
--   [ ] **To-do 2.4.3: Send `GameState` to clients**
-    -   In `backend/src/server.ts`:
-        -   When a new client connects, emit the current `GameState` to that client using a `gameState` event.
-        -   Modify the periodic game logic update to emit the updated `GameState` to all connected clients in the room using `io.to(gameId).emit('gameState', gameState)`.
-    -   **Check:** Verify that the initial `GameState` is sent to new clients and that the updated `GameState` is broadcast to all clients in the room periodically.
+    -   Move `Game` class from `GameManager.ts` to `backend/src/game/Game.ts`.
+    -   Add `gameState: GameState` property to `Game` class.
+    -   Modify `initializeGameState()` (or constructor) to initialize `gameState`.
+    -   Add/modify `updateBall()` to update `gameState` properties.
+    -   Implement `movePaddle()` to update `gameState`.
+    -   Modify `getGameState()` to return `gameState`.
+    -   **Check:** Verify that `Game` class manages `GameState` correctly.
+-   [x] **To-do 2.4.3: Send `GameState` to clients**
+    -   In `backend/src/server.ts`, when client joins, emit initial `GameState`.
+    -   Modify periodic game logic update to emit updated `GameState` to clients in the room.
+    -   **Check:** Verify that initial `GameState` is sent and updates are broadcast periodically.
 
 ### Chunk 2.5: Core Game Mechanics
 
 -   [x] **To-do 2.5.1: Implement paddle movement in `Game` class**
-    -   In the `Game` class, implement methods to update the paddle positions (e.g., `movePaddle1(deltaY: number)`, `movePaddle2(deltaY: number)`).
-    -   Ensure that the paddle's new position stays within the bounds of the game area.
-    -   **Check:** Verify that the paddle movement methods update the paddle positions correctly and prevent them from going out of bounds.
+    -   In `Game` class, implement `movePaddle()` to update paddle positions within bounds.
+    -   **Check:** Verify that paddle movement methods update positions correctly.
 -   [x] **To-do 2.5.2: Implement ball-wall collision detection**
-    -   In the `updateBall()` method of the `Game` class, implement collision detection for the top and bottom walls.
-    -   When a collision occurs, reverse the `velocityY` of the ball.
-    -   **Check:** Verify that the ball bounces correctly off the top and bottom walls.
+    -   In `updateBall()` method, implement collision detection for top and bottom walls, reversing `velocityY`.
+    -   **Check:** Verify that the ball bounces correctly off top and bottom walls.
 -   [x] **To-do 2.5.3: Implement ball-paddle collision detection**
-    -   In the `updateBall()` method, implement collision detection for the ball and the paddles.
-    -   When a collision occurs, reverse the `velocityX` of the ball.
-    -   Consider adding logic to adjust the `velocityY` based on where the ball hits the paddle.
-    -   **Check:** Verify that the ball bounces correctly off the paddles.
+    -   In `updateBall()`, implement collision detection for ball and paddles, reversing `velocityX` and adjusting `velocityY`.
+    -   **Check:** Verify that the ball bounces correctly off paddles.
 -   [x] **To-do 2.5.4: Implement scoring logic**
-    -   In the `updateBall()` method, implement logic to check if the ball has passed the left or right edges of the game area.
-    -   If the ball passes the left edge, increment the right player's score. If it passes the right edge, increment the left player's score.
-    -   Reset the ball to the center of the game area after a score.
-    -   Update the `gameState` with the new scores.
-    -   **Check:** Verify that the scoring logic works correctly and the ball resets after a score.
+    -   In `updateBall()`, check if ball passes left/right edges, increment score, and reset ball to center.
+    -   **Check:** Verify that scoring logic works and ball resets.
 
 ### Chunk 2.6: Socket.IO Event Handling for Game Logic
 
 -   [x] **To-do 2.6.1: Handle `paddle-move` event**
-    -   In `backend/src/server.ts`, add a Socket.IO event listener for the `paddle-move` event.
-    -   The event data should include:
-        -   `gameId`: The ID of the game being played.
-        -   `playerId`: The ID of the player moving the paddle.
-        -   `deltaY`: The amount the paddle should move vertically.
-    -   Call the appropriate paddle movement method in the `Game` class (e.g., `movePaddle1()`, `movePaddle2()`).
-    -   After updating the paddle position, emit the updated `gameState` to all clients in the room.
-    -   **Check:** Verify that the server correctly receives and handles the `paddle-move` event, updates the paddle position, and broadcasts the new game state.
+    -   In `backend/src/server.ts`, add a `socket.on('paddleMove')` listener.
+    -   Call `game.movePaddle()` and emit updated `gameState` to the room.
+    -   **Check:** Verify server handles `paddleMove`, updates paddle, and broadcasts state.
 -   [x] **To-do 2.6.2: Implement game loop**
-    -   In `backend/src/server.ts`, implement a game loop using `setInterval` to periodically call the `updateBall()` method of the `Game` class for each active game.
-    -   The game loop should also emit the updated `gameState` to all clients in the room after updating the ball's position.
-    -   **Check:** Verify that the game loop is running and that the ball's position is updated and broadcast to clients at the correct interval.
+    -   In `backend/src/server.ts`, start `gameManager.startGameLoop()` on `createGame` event.
+    -   Ensure `GameManager.startGameLoop()` uses `setInterval` to call `game.updateBall()` and emit `gameState`.
+    -   Implement `gameManager.stopGameLoopIfGameEmpty()` on `disconnect`.
+    -   **Check:** Verify game loop starts/stops and broadcasts correctly.
 
 ### Chunk 2.7: Backend Testing
 
 -   [x] **To-do 2.7.1: Manual testing of game logic**
-    -   Start the backend server.
-    -   Use a Socket.IO client (e.g., a simple HTML page or a Socket.IO client library) to:
-        -   Connect to the server.
-        -   Simulate paddle movements by emitting the `paddle-move` event.
-        -   Observe the `gameState` updates from the server to verify that paddle movements, ball movement, and scoring are working correctly.
-    -   **Check:** Manually verify that the game logic is functioning as expected by observing the server's behavior and the `gameState` updates.
+    -   Run backend server. Use `index.html` or browser console to test `createGame`, `joinGame`, `paddleMove`, `gameState` updates, scoring, and disconnects.
+    -   **Check:** Manually verify that game logic functions as expected.
 
 ## Phase 3: Frontend Development
 
@@ -214,163 +176,189 @@
     -   Use the command line to navigate to the `frontend` directory: `cd frontend`
     -   **Check:** Verify that the current directory in the terminal is `frontend`.
 -   [x] **To-do 3.1.2: Set up React with Vite**
-    -   Run the following command to create a new React project with TypeScript using Vite:
-        ```bash
-        npm create vite@latest . -- --template react-ts
-        ```
+    -   Run `npm create vite@latest . -- --template react-ts`.
     -   **Check:** Verify that a new React project is created in the `frontend` directory.
 -   [x] **To-do 3.1.3: Install Socket.IO client**
-    -   Install the Socket.IO client library: `npm install socket.io-client`
-    -   **Check:** Verify that the `socket.io-client` library is installed by checking the `node_modules` directory in `frontend` and the `dependencies` section in `frontend/package.json`.
+    -   Install `socket.io-client`.
+    -   **Check:** Verify that the `socket.io-client` library is installed.
 
 ### Chunk 3.2: Frontend Components
 
 -   [x] **To-do 3.2.1: Create `Lobby` component**
-    -   Create a new directory `frontend/src/components`.
-    -   Create a new file `frontend/src/components/Lobby.tsx`.
-    -   Implement the `Lobby` component.
-    -   This component should include:
-        -   A title (e.g., "Ping Pong").
-        -   A subtitle (e.g., "Multiplayer Game").
-        -   An input field for the player's name.
-        -   A button to join the game.
-        -   Instructions on how to play.
-    -   **Check:** Verify that the `Lobby` component is created and displays the correct UI elements.
+    -   Create `frontend/src/components` directory and `Lobby.tsx` file.
+    -   Implement `Lobby` with title, subtitle, name input, join button, and instructions.
+    -   **Check:** Verify `Lobby` component displays correct UI.
 -   [x] **To-do 3.2.2: Create `GameCanvas` component**
-    -   Create a new file `frontend/src/components/GameCanvas.tsx`.
-    -   Implement the `GameCanvas` component.
-    -   This component will be responsible for rendering the game elements (paddles, ball, game area).
-    -   Use a `<canvas>` element or SVG for rendering.
-    -   **Check:** Verify that the `GameCanvas` component is created and a `<canvas>` element or SVG is present.
+    -   Create `GameCanvas.tsx` and `GameCanvas.css`.
+    -   Implement `GameCanvas` to render game area, using a `<canvas>` element for background/line and React components for dynamic elements.
+    -   **Check:** Verify `GameCanvas` component is created and renders basic canvas/elements.
 -   [x] **To-do 3.2.3: Create `Paddle` component**
-    -   Create a new file `frontend/src/components/Paddle.tsx`.
-    -   Implement the `Paddle` component.
-    -   This component should render a rectangle representing a paddle.
-    -   **Check:** Verify that the `Paddle` component is created and renders a rectangle.
+    -   Create `Paddle.tsx` and `Paddle.css`.
+    -   Implement `Paddle` to render a rectangle positioned with CSS.
+    -   Update `GameCanvas.tsx` to use `Paddle` components.
+    -   **Check:** Verify `Paddle` component renders correctly within `GameCanvas`.
 -   [x] **To-do 3.2.4: Create `Ball` component**
-    -   Create a new file `frontend/src/components/Ball.tsx`.
-    -   Implement the `Ball` component.
-    -   This component should render a circle or a rectangle representing the ball.
-    -   **Check:** Verify that the `Ball` component is created and renders a circle or rectangle.
+    -   Create `Ball.tsx` and `Ball.css`.
+    -   Implement `Ball` to render a circle positioned with CSS.
+    -   Update `GameCanvas.tsx` to use `Ball` component.
+    -   **Check:** Verify `Ball` component renders correctly within `GameCanvas`.
 -   [x] **To-do 3.2.5: Create `Scoreboard` component**
-    -   Create a new file `frontend/src/components/Scoreboard.tsx`.
-    -   Implement the `Scoreboard` component.
-    -   This component should display the scores of both players (e.g., "First: 0 vs Second: 0").
-    -   **Check:** Verify that the `Scoreboard` component is created and displays the scores correctly.
+    -   Create `Scoreboard.tsx` and `Scoreboard.css`.
+    -   Implement `Scoreboard` to display scores (e.g., "First: 0 vs Second: 0").
+    -   Update `Scoreboard.css` for desired styling and size (shorter/wider).
+    -   **Check:** Verify `Scoreboard` component displays and updates scores correctly.
 -   [x] **To-do 3.2.6: Create `ErrorMessage` component**
-    -   Create a new file `frontend/src/components/ErrorMessage.tsx`.
-    -   Implement the `ErrorMessage` component.
-    -   This component should display error messages received from the server.
-    -   **Check:** Verify that the `ErrorMessage` component is created and can display a given error message.
+    -   Create `ErrorMessage.tsx` and `ErrorMessage.css`.
+    -   Implement `ErrorMessage` to display server errors.
+    -   **Check:** Verify `ErrorMessage` component can display and hide messages.
 
 ### Chunk 3.3: Socket.IO Integration (Frontend)
 
 -   [x] **To-do 3.3.1: Connect to Socket.IO server**
-    -   In `frontend/src/App.tsx`, import the `io` function from `socket.io-client`.
-    -   Establish a connection to the backend server (e.g., `const socket = io('http://localhost:3001');`).
-    -   Store the `socket` instance in a state variable for later use.
-    -   **Check:** Verify that the connection to the server is established and the `socket` instance is stored in the state.
+    -   In `frontend/src/App.tsx`, import `io` function.
+    -   Establish a connection to the backend server and store the `socket` instance in state.
+    -   **Check:** Verify connection is established and `socket` instance is stored.
 -   [x] **To-do 3.3.2: Handle `connect` and `disconnect` events**
-    -   In `frontend/src/App.tsx`, add event listeners for the `connect` and `disconnect` events.
-    -   Log messages to the console when these events occur.
-    -   Potentially update the UI to reflect the connection status.
-    -   **Check:** Verify that the `connect` and `disconnect` events are handled and logged correctly.
--   [ ] **To-do 3.3.3: Emit `player-join` event**
-    -   In the `Lobby` component, when the player clicks the "Join Game" button, emit a `player-join` event to the server, sending the player's name as data.
-    -   **Check:** Verify that the `player-join` event is emitted with the player's name when the button is clicked.
--   [ ] **To-do 3.3.4: Handle `game-start` event**
-    -   In `frontend/src/App.tsx`, add an event listener for the `game-start` event.
-    -   When this event is received, it should contain the initial game state (e.g., paddle positions, ball position, scores).
-    -   Store this initial game state in a state variable.
-    -   Potentially switch the UI from the `Lobby` to the `GameCanvas` component.
-    -   **Check:** Verify that the `game-start` event is handled, the initial game state is received, and the UI is updated accordingly.
--   [ ] **To-do 3.3.5: Handle `game-state` event**
-    -   In `frontend/src/App.tsx`, add an event listener for the `game-state` event.
-    -   When this event is received, it should contain the updated game state.
-    -   Update the game state variable in `App.tsx` with the received data.
-    -   Pass the game state to the `GameCanvas` component as props.
-    -   **Check:** Verify that the `game-state` event is handled and the game state is updated correctly.
--   [ ] **To-do 3.3.6: Handle `error` event**
-    -   In `frontend/src/App.tsx`, add an event listener for the `error` event.
-    -   When this event is received, display the error message in the `ErrorMessage` component.
-    -   **Check:** Verify that the `error` event is handled and the error message is displayed in the UI.
--   [ ] **To-do 3.3.7: Emit `paddle-move` event**
-    -   In the `GameCanvas` component, capture keyboard input for paddle movement.
-    -   When a relevant key is pressed, emit a `paddle-move` event to the server, including the direction of movement.
-    -   **Check:** Verify that the `paddle-move` event is emitted with the correct data when the player presses a movement key.
+    -   In `frontend/src/App.tsx`, add event listeners for `connect` and `disconnect`, logging messages.
+    -   **Check:** Verify `connect` and `disconnect` events are handled.
+-   [x] **To-do 3.3.3: Implement Game Creation/Joining Flow from Frontend**
+    -   Modify `Lobby.tsx` to include Game ID input and separate "Create Game" / "Join Game" buttons.
+    -   Modify `handleJoinGame` in `App.tsx` to emit `createGame` or `joinGame` based on user input, and handle connection establishment.
+    -   **Check:** Verify correct events are emitted for game creation/joining.
+-   [x] **To-do 3.3.4: Handle `game-start` event**
+    -   In `frontend/src/App.tsx`, add an event listener for `gameCreated` and `joinedGame` events.
+    -   Store `gameInfo` (gameId, playerNumber, playerName) in state.
+    -   Switch the UI from `Lobby` to the game display (Scoreboard, GameCanvas, ErrorMessage) based on `inGame` state.
+    -   **Check:** Verify UI switches and `gameInfo` is stored.
 
-### Chunk 3.4: Rendering Game Elements
+### Chunk 3.4: Real-Time Game State & Error Handling (Frontend)
 
--   [ ] **To-do 3.4.1: Render paddles**
-    -   In the `GameCanvas` component, render the paddles based on the paddle positions received in the `gameState` prop.
-    -   Use the `<canvas>` API or SVG to draw rectangles for the paddles.
-    -   Apply styles (e.g., color, width, height) to the paddles.
-    -   **Check:** Verify that the paddles are rendered at the correct positions with the correct styles.
--   [ ] **To-do 3.4.2: Render ball**
-    -   In the `GameCanvas` component, render the ball based on the ball position received in the `gameState` prop.
-    -   Use the `<canvas>` API or SVG to draw a circle or rectangle for the ball.
-    -   Apply styles (e.g., color, radius) to the ball.
-    -   **Check:** Verify that the ball is rendered at the correct position with the correct styles.
--   [ ] **To-do 3.4.3: Render score**
-    -   In the `Scoreboard` component, display the scores of both players.
-    -   Receive the scores as props.
-    -   Apply styles to the score display.
-    -   **Check:** Verify that the scores are displayed correctly and updated when they change.
+-   [x] **To-do 3.4.1: Handle `gameState` event**
+    -   In `frontend/src/App.tsx`, add an event listener for the `gameState` event (emitted periodically by the backend game loop).
+    -   When this event is received, update the `gameState` state variable in `App.tsx` with the received data.
+    -   Pass the `gameState` to the `GameCanvas` and `Scoreboard` components as props.
+    -   **Check:**
+        -   Verify that the `gameState` object is received by the frontend and its `ballX`, `ballY`, `player1PaddleY`, `player2PaddleY` properties update continuously in the browser console.
+        -   Verify that the `GameCanvas` visually renders the moving ball and paddles, and `Scoreboard` visually updates scores based on this real-time data.
+-   [x] **To-do 3.4.2: Handle `error` event**
+    -   In `frontend/src/App.tsx`, add an event listener for the `error` event (emitted by the backend for failed joins, etc.).
+    -   When this event is received, store the `data.message` in the `errorMessage` state variable.
+    -   Ensure the `ErrorMessage` component is rendered with this `errorMessage`.
+    -   **Check:**
+        -   Verify that creating a game with 2 existing players (simulating third player join) causes an "Game is full" error to appear.
+        -   Verify that attempting to join a non-existent game causes a "Game not found" error to appear.
+        -   Verify that error messages clear when a new successful connection is made.
 
-## Phase 4: Integration and Testing
+### Chunk 3.5: Player Input Handling (Frontend)
 
-### Chunk 4.1: Integration Testing
+-   [ ] **To-do 3.5.1: Capture keyboard input for paddle movement**
+    -   In `frontend/src/App.tsx` or `GameCanvas.tsx`, add event listeners for keyboard events (`keydown` and `keyup`) on the `window` or `document`.
+    -   Identify specific keys that will control each player's paddle movement (e.g., 'w'/'s' for Player 1, 'ArrowUp'/'ArrowDown' for Player 2).
+    -   Maintain a local state (e.g., a `Set` or boolean flags) to track which movement keys are currently being pressed.
+    -   **Check:** Verify that keyboard input is detected and recognized in the browser console.
+-   [ ] **To-do 3.5.2: Emit paddle movement to backend**
+    -   Modify `frontend/src/App.tsx` to periodically (e.g., in a `requestAnimationFrame` loop or `setInterval`) emit the `'paddleMove'` Socket.IO event to the backend.
+    -   The event should include: `gameId`, `deltaY` (calculated from pressed keys and `PADDLE_SPEED`), and the current player's `playerNumber` (from `gameInfo`).
+    -   Only emit if keys are actually pressed and the client is in a game.
+    -   **Check:**
+        -   Verify that `paddleMove` events are emitted from the frontend when keys are pressed.
+        -   Verify that the backend terminal logs the `paddleMove` event and shows the paddle's Y position updating for the correct player.
+        -   Visually verify that controlling one paddle on one screen moves that specific paddle on both screens.
 
--   [ ] **To-do 4.1.1: Test player joining**
-    -   Start both the backend and frontend servers.
+## Phase 4: Integration and Overall Testing
+
+### Chunk 4.1: End-to-End Testing
+
+-   [ ] **To-do 4.1.1: Comprehensive Player Joining and Game Flow Test**
+    -   Start both backend and frontend servers.
     -   Open two browser windows.
-    -   In each window, enter a player name and click "Join Game".
-    -   Verify that both players are connected and the game starts.
-    -   **Check:** Verify that players can join the game and their names are displayed (if implemented).
--   [ ] **To-do 4.1.2: Test paddle movement**
-    -   In the two browser windows, use the keyboard to control the paddles.
-    -   Verify that the paddles move smoothly and in real-time for both players.
-    -   **Check:** Verify that paddle movement is synchronized between players and that the paddles stay within the game bounds.
--   [ ] **To-do 4.1.3: Test ball movement and collision**
-    -   Observe the ball's movement and collision with the walls and paddles.
-    -   Verify that the ball bounces correctly and changes direction.
-    -   **Check:** Verify that the ball's movement and collision detection are accurate and realistic.
--   [ ] **To-do 4.1.4: Test scoring**
-    -   Allow players to score points by missing the ball.
-    -   Verify that the scores are updated correctly for both players.
-    -   **Check:** Verify that the scoring logic works as expected and the scores are displayed correctly.
--   [ ] **To-do 4.1.5: Test error handling**
-    -   Try to join a game with more than two players (if you implemented this).
-    -   Verify that the appropriate error message is displayed.
-    -   **Check:** Verify that error messages are displayed correctly in the UI.
+    -   **Client 1:** Type name, click "Create New Game". Verify UI switch, game ID displayed, ball moving, and background paddles.
+    -   **Client 2:** Type name, paste Game ID, click "Join Existing Game". Verify UI switch, ball and paddle synchronization, and both clients see the same game state.
+    -   **Check:** Verify entire flow from joining to active gameplay works seamlessly for two players.
+-   [ ] **To-do 4.1.2: Full Paddle Control Test**
+    -   Using the two connected clients, control Player 1's paddle (e.g., with 'W'/'S'). Verify its movement on both screens.
+    -   Control Player 2's paddle (e.g., with 'ArrowUp'/'ArrowDown'). Verify its movement on both screens.
+    -   Test paddle boundaries.
+    -   **Check:** Verify paddle controls are fully synchronized and respect boundaries.
+-   [ ] **To-do 4.1.3: Ball Physics and Scoring Test**
+    -   Observe multiple ball-wall collisions (top/bottom) and ball-paddle collisions. Verify bounces are realistic.
+    -   Allow the ball to pass a paddle to trigger scoring. Verify scores update on both screens.
+    -   Verify ball resets to center after a score.
+    -   **Check:** Verify core game mechanics (bounces, scoring, reset) are accurate and synchronized.
+-   [ ] **To-do 4.1.4: Error Handling Test**
+    -   With two players active, open a third browser window, type name, paste Game ID, click "Join Existing Game". Verify "Game is full" error appears on Client 3 and it remains in the lobby.
+    -   Attempt to join a random, non-existent Game ID. Verify "Game not found" error.
+    -   **Check:** Verify all error conditions are handled and displayed correctly.
+-   [ ] **To-do 4.1.5: Disconnection Handling Test**
+    -   With two players in a game, close one client's tab. Verify the backend logs the disconnect and (if implemented) the game loop stops.
+    -   Close the second client's tab. Verify all backend resources are cleaned up.
+    -   **Check:** Verify player disconnections are handled gracefully and backend resources are freed.
 
-### Chunk 4.2: Bug Fixing
+## Phase 5: Polishing and User Experience
 
--   [ ] **To-do 4.2.1: Identify and document bugs**
-    -   During testing, carefully note down any bugs or unexpected behavior.
-    -   Document the steps to reproduce the bug.
-    -   **Check:** Create a list of all identified bugs with clear descriptions.
--   [ ] **To-do 4.2.2: Fix bugs**
-    -   Fix the bugs identified in the previous step.
-    -   Test each fix to ensure it resolves the issue and doesn't introduce new bugs.
-    -   **Check:** Verify that all identified bugs are fixed and the game functions correctly.
+### Chunk 5.1: Visual Enhancements
 
-### Chunk 4.3: Code Cleanup and Documentation
+-   [ ] **To-do 5.1.1: Improve Styling and Responsiveness**
+    -   Review all CSS files (`Lobby.css`, `GameCanvas.css`, `Paddle.css`, `Ball.css`, `Scoreboard.css`, `ErrorMessage.css`).
+    * Refine colors, fonts (e.g., "Inter"), shadows, and overall aesthetics for a professional look.
+    * Ensure all components are visually appealing and have rounded corners.
+    * Implement basic responsive design principles (e.g., fluid widths, media queries) to ensure the game looks good on various screen sizes (mobile, tablet, desktop).
+    * **Check:** Visually confirm the game looks polished and is responsive across different screen sizes (try resizing your browser window).
+-   [ ] **To-do 5.1.2: Add User Feedback**
+    -   Implement visual cues for game events (e.g., small flash on screen when a point is scored, "Game Over" message).
+    -   Consider adding simple sound effects for ball hits and scoring (using `tone.js` if desired, no external URLs).
+    -   **Check:** Verify user feedback is clear and enhances the experience.
+-   [ ] **To-do 5.1.3: Implement "Leave Game" Button**
+    -   Add a "Leave Game" button to the game screen UI.
+    -   When clicked, emit a Socket.IO event to the server to signal the player leaving the game.
+    -   Handle this event on the backend to remove the player from the game and update relevant game state.
+    -   On the frontend, switch the UI back to the Lobby screen.
+    -   **Check:** Verify player can leave game gracefully, and both frontend/backend update correctly.
 
--   [ ] **To-do 4.3.1: Code cleanup**
-    -   Remove any unnecessary code, comments, or console logs.
-    -   Ensure consistent code formatting and style.
-    -   **Check:** Verify that the code is clean, readable, and well-formatted.
--   [ ] **To-do 4.3.2: Documentation**
-    -   Write basic documentation for your project.
+### Chunk 5.2: Code Quality and Maintainability
+
+-   [ ] **To-do 5.2.1: Code Formatting and Linting**
+    -   Set up and run a code formatter (e.g., Prettier) across the entire project (both `backend` and `frontend`).
+    -   Ensure ESLint is configured with recommended TypeScript rules and run it to fix any linting errors.
+    -   **Check:** Confirm consistent code style and no linting warnings/errors remain.
+-   [ ] **To-do 5.2.2: Refactor Components and Logic**
+    -   Review frontend and backend code for modularity, readability, and efficiency.
+    -   Extract helper functions, abstract common patterns, and ensure clear separation of concerns.
+    -   Ensure all relevant data types (`GameState`, etc.) are consistently used across the stack.
+    -   **Check:** Confirm code is clean, well-structured, and easy to understand.
+-   [ ] **To-do 5.2.3: Comprehensive Code Comments**
+    -   Add clear and concise comments to complex logic, function headers, and key sections of code in both frontend and backend.
+    -   **Check:** Ensure code is well-documented for future understanding.
+
+## Phase 6: Final Review and Submission
+
+### Chunk 6.1: Project Finalization
+
+-   [ ] **To-do 6.1.1: Final End-to-End Test**
+    -   Perform a full, comprehensive test of all game functionalities one last time from start to finish with two players.
+    -   Address any last-minute bugs.
+    -   **Check:** Confirm all features work perfectly and are free of critical bugs.
+-   [ ] **To-do 6.1.2: Update `README.md`**
+    -   Create or update the `README.md` file in your project's root directory.
     -   Include:
-        -   Project description
-        -   Setup instructions
-        -   Explanation of the main components and functionality
-    -   **Check:** Verify that the documentation is clear, concise, and covers the necessary information.
-
-### Chunk 4.4: Final Submission
-
--   [ ] **To-do 4.4.1: Prepare for submission**
-    -   Package your project for submission according to the assignment instructions.
-    -   **Check:** Verify that the project is packaged correctly and meets all submission requirements.
+        -   Project Title & Description
+        -   Screenshot/Gif of the game (optional, but highly recommended)
+        -   Key Features
+        -   Technologies Used
+        -   Setup & Installation Instructions (for both backend and frontend)
+        -   How to Run the Game
+        -   Deployment instructions (if applicable)
+        -   Credits/Acknowledgements
+    -   **Check:** Verify `README.md` is complete, accurate, and easy to follow.
+-   [ ] **To-do 6.1.3: Clean Production Build (Optional but Recommended)**
+    -   For `backend`: `cd backend && npm run build` (This creates the `dist` folder).
+    * For `frontend`: `cd frontend && npm run build` (This creates the `dist` folder).
+    * **Check:** Ensure both builds complete successfully without errors.
+-   [ ] **To-do 6.1.4: Final Git Commit and Push**
+    -   Ensure all final changes are committed to your `main` branch.
+    -   Push your `main` branch to your remote GitHub repository.
+    -   **Check:** Verify your GitHub repository is up-to-date with all project code.
+-   [ ] **To-do 6.1.5: Submission Preparation**
+    -   Review all assignment requirements one last time.
+    * Ensure all necessary files and instructions are in place for grading.
+    * **Check:** Confirm project meets all submission criteria.
