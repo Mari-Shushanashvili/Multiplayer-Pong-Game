@@ -269,27 +269,27 @@
 
 ### Chunk 4.1: End-to-End Testing
 
--   [ ] **To-do 4.1.1: Comprehensive Player Joining and Game Flow Test**
+-   [x] **To-do 4.1.1: Comprehensive Player Joining and Game Flow Test**
     -   Start both backend and frontend servers.
     -   Open two browser windows.
     -   **Client 1:** Type name, click "Create New Game". Verify UI switch, game ID displayed, ball moving, and background paddles.
     -   **Client 2:** Type name, paste Game ID, click "Join Existing Game". Verify UI switch, ball and paddle synchronization, and both clients see the same game state.
     -   **Check:** Verify entire flow from joining to active gameplay works seamlessly for two players.
--   [ ] **To-do 4.1.2: Full Paddle Control Test**
+-   [x] **To-do 4.1.2: Full Paddle Control Test**
     -   Using the two connected clients, control Player 1's paddle (e.g., with 'W'/'S'). Verify its movement on both screens.
     -   Control Player 2's paddle (e.g., with 'ArrowUp'/'ArrowDown'). Verify its movement on both screens.
     -   Test paddle boundaries.
     -   **Check:** Verify paddle controls are fully synchronized and respect boundaries.
--   [ ] **To-do 4.1.3: Ball Physics and Scoring Test**
+-   [x] **To-do 4.1.3: Ball Physics and Scoring Test**
     -   Observe multiple ball-wall collisions (top/bottom) and ball-paddle collisions. Verify bounces are realistic.
     -   Allow the ball to pass a paddle to trigger scoring. Verify scores update on both screens.
     -   Verify ball resets to center after a score.
     -   **Check:** Verify core game mechanics (bounces, scoring, reset) are accurate and synchronized.
--   [ ] **To-do 4.1.4: Error Handling Test**
+-   [x] **To-do 4.1.4: Error Handling Test**
     -   With two players active, open a third browser window, type name, paste Game ID, click "Join Existing Game". Verify "Game is full" error appears on Client 3 and it remains in the lobby.
     -   Attempt to join a random, non-existent Game ID. Verify "Game not found" error.
     -   **Check:** Verify all error conditions are handled and displayed correctly.
--   [ ] **To-do 4.1.5: Disconnection Handling Test**
+-   [x] **To-do 4.1.5: Disconnection Handling Test**
     -   With two players in a game, close one client's tab. Verify the backend logs the disconnect and (if implemented) the game loop stops.
     -   Close the second client's tab. Verify all backend resources are cleaned up.
     -   **Check:** Verify player disconnections are handled gracefully and backend resources are freed.
