@@ -10,10 +10,15 @@ export const PADDLE_SPEED = 6;
 
 export const BALL_INITIAL_SPEED = 4;
 
+export const WINNING_SCORE = 5;
+
 const PADDLE1_X = 0;
 
 const PADDLE2_X = GAME_WIDTH - PADDLE_WIDTH;
 
+/**
+ * Represents a single instance of the Pong game, managing its state and logic.
+ */
 export class Game {
     id: string;
 
@@ -149,11 +154,13 @@ export class Game {
 
         if (this.gameState.ballX - this.gameState.ballRadius < 0) {
             this.gameState.player2Score++;
-            this.resetBall(-1);}
-
+            this.resetBall(-1);
+            this.checkWinCondition();
+        }
         else if (this.gameState.ballX + this.gameState.ballRadius > GAME_WIDTH) {
             this.gameState.player1Score++;
             this.resetBall(1);
+            this.checkWinCondition();
         }
     }
 
@@ -201,8 +208,22 @@ export class Game {
         this.gameState.ballX = GAME_WIDTH / 2;
         this.gameState.ballY = GAME_HEIGHT / 2;
         
-        this.ballVelocityX = losingSideDirection * BALL_INITIAL_SPEED;
+        this.ballVelocityX = losingSideDirection * BALL_INITIAL_SPEED; 
         this.ballVelocityY = (Math.random() > 0.5 ? 1 : -1) * BALL_INITIAL_SPEED;
         this.gameState.status = 'playing';
+    }
+
+    /**
+     * Checks if a player has reached the winning score.
+     * If a winner is found, updates the game status to 'gameOver' and sets the winner.
+     */
+    private checkWinCondition() {
+        if (this.gameState.player1Score >= WINNING_SCORE) {
+            this.gameState.status = 'gameOver';
+            this.gameState.winner = 'player1';
+        } else if (this.gameState.player2Score >= WINNING_SCORE) {
+            this.gameState.status = 'gameOver';
+            this.gameState.winner = 'player2';
+        }
     }
 }

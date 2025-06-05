@@ -14,50 +14,50 @@
 
 .lobby-card {
   background-color: #2d3748;
-  padding: 2.5rem 2rem;
+  padding: 1.25rem 2rem;
   border-radius: 0.75rem;
   box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2), 0 5px 10px -5px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
+  max-width: 500px;
+  width: 90%;
   text-align: center;
   box-sizing: border-box;
 }
 
 .lobby-title {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 800;
   color: #63b3ed;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   letter-spacing: 0.05em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .lobby-subtitle {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #a0aec0;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .player-input-group {
-  margin-bottom: 2rem;
+  margin-bottom: 0.8rem;
 }
 
 .player-input-label {
   display: block;
   color: #a0aec0;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.4rem;
 }
 
 .player-input-field {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 0.5rem;
   background-color: #4a5568;
   border: 1px solid #4a5568;
   outline: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #fff;
   box-sizing: border-box;
 }
@@ -73,65 +73,38 @@
   background-color: #3182ce;
   color: #fff;
   font-weight: 700;
-  padding: 0.85rem 1.5rem;
+  padding: 0.7rem 1.2rem;
   border-radius: 0.5rem;
   transition: all 0.3s ease-in-out;
   transform: scale(1);
-  font-size: 1.35rem;
-  box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.2), 0 3px 7px -2px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  border: none;
-}
-
-.join-button:hover {
-  background-color: #2b6cb0;
-  transform: scale(1.03);
-}
-
-.instructions-section {
-  margin-top: 2.5rem;
-  text-align: left;
-  border-top: 1px solid #4a5568;
-  padding-top: 1.75rem;
-}
-
-.instructions-title {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #63b3ed;
-  margin-bottom: 1rem;
-}
-
-.instructions-list {
-  list-style-type: disc;
-  list-style-position: inside;
-  color: #a0aec0;
-  font-size: 0.95rem;
-}
-
-.instructions-list li {
-  margin-bottom: 0.4rem;
-}
-
-.join-button {
-  width: 100%;
-  background-color: #3182ce;
-  color: #fff;
-  font-weight: 700;
-  padding: 0.85rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease-in-out;
-  transform: scale(1);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.2), 0 3px 7px -2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   border: none;
   margin-bottom: 0.75rem;
 }
 
-.button-create {
-  background-color: #28a745;
+.instructions-section {
+  margin-top: 1.5rem;
+  text-align: left;
+  border-top: 1px solid #4a5568;
+  padding-top: 1.25rem;
 }
-.button-join-existing {
-  background-color: #007bff;
+
+.instructions-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #63b3ed;
+  margin-bottom: 0.75rem;
+}
+
+.instructions-list {
+  list-style-type: disc;
+  list-style-position: inside;
+  color: #a0aec0;
+  font-size: 0.8rem;
+}
+
+.instructions-list li {
+  margin-bottom: 0.2rem;
 }
