@@ -298,7 +298,7 @@
 
 ### Chunk 5.1: Visual Enhancements
 
--   [ ] **To-do 5.1.1: Improve Styling and Responsiveness**
+-   [x] **To-do 5.1.1: Improve Styling and Responsiveness**
     -   Review all CSS files (`Lobby.css`, `GameCanvas.css`, `Paddle.css`, `Ball.css`, `Scoreboard.css`, `ErrorMessage.css`).
     * Refine colors, fonts (e.g., "Inter"), shadows, and overall aesthetics for a professional look.
     * Ensure all components are visually appealing and have rounded corners.
@@ -317,16 +317,16 @@
 
 ### Chunk 5.2: Code Quality and Maintainability
 
--   [ ] **To-do 5.2.1: Code Formatting and Linting**
+-   [x] **To-do 5.2.1: Code Formatting and Linting**
     -   Set up and run a code formatter (e.g., Prettier) across the entire project (both `backend` and `frontend`).
     -   Ensure ESLint is configured with recommended TypeScript rules and run it to fix any linting errors.
-    -   **Check:** Confirm consistent code style and no linting warnings/errors remain.
--   [ ] **To-do 5.2.2: Refactor Components and Logic**
+    -  **Check:** Confirm consistent code style and no linting warnings/errors remain.
+-   [x] **To-do 5.2.2: Refactor Components and Logic**
     -   Review frontend and backend code for modularity, readability, and efficiency.
     -   Extract helper functions, abstract common patterns, and ensure clear separation of concerns.
     -   Ensure all relevant data types (`GameState`, etc.) are consistently used across the stack.
     -   **Check:** Confirm code is clean, well-structured, and easy to understand.
--   [ ] **To-do 5.2.3: Comprehensive Code Comments**
+-   [x] **To-do 5.2.3: Comprehensive Code Comments**
     -   Add clear and concise comments to complex logic, function headers, and key sections of code in both frontend and backend.
     -   **Check:** Ensure code is well-documented for future understanding.
 
@@ -334,11 +334,11 @@
 
 ### Chunk 6.1: Project Finalization
 
--   [ ] **To-do 6.1.1: Final End-to-End Test**
+-   [x] **To-do 6.1.1: Final End-to-End Test**
     -   Perform a full, comprehensive test of all game functionalities one last time from start to finish with two players.
     -   Address any last-minute bugs.
     -   **Check:** Confirm all features work perfectly and are free of critical bugs.
--   [ ] **To-do 6.1.2: Update `README.md`**
+-   [x] **To-do 6.1.2: Update `README.md`**
     -   Create or update the `README.md` file in your project's root directory.
     -   Include:
         -   Project Title & Description
@@ -350,15 +350,15 @@
         -   Deployment instructions (if applicable)
         -   Credits/Acknowledgements
     -   **Check:** Verify `README.md` is complete, accurate, and easy to follow.
--   [ ] **To-do 6.1.3: Clean Production Build (Optional but Recommended)**
+-   [x] **To-do 6.1.3: Clean Production Build (Optional but Recommended)**
     -   For `backend`: `cd backend && npm run build` (This creates the `dist` folder).
     * For `frontend`: `cd frontend && npm run build` (This creates the `dist` folder).
     * **Check:** Ensure both builds complete successfully without errors.
--   [ ] **To-do 6.1.4: Final Git Commit and Push**
+-   [x] **To-do 6.1.4: Final Git Commit and Push**
     -   Ensure all final changes are committed to your `main` branch.
     -   Push your `main` branch to your remote GitHub repository.
     -   **Check:** Verify your GitHub repository is up-to-date with all project code.
--   [ ] **To-do 6.1.5: Submission Preparation**
-    -   Review all assignment requirements one last time.
+-   [x] **To-do 6.1.5: Submission Preparation**
+    -  Review all assignment requirements one last time.
     * Ensure all necessary files and instructions are in place for grading.
     * **Check:** Confirm project meets all submission criteria.
