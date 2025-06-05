@@ -162,14 +162,3 @@ Follow these steps to get the project running on your local machine:
         * **Player 2 (Right Paddle):** 'ArrowUp' (Up), 'ArrowDown' (Down)
 
 Enjoy the game!
-
-## Future Enhancements (Optional)
-
-* **Game Lobbies:** Implement a list of active games players can choose from.
-* **Spectator Mode:** Allow players to watch ongoing games without participating.
-* **User Authentication:** Add user accounts and persistent profiles.
-* **Improved Physics:** More advanced ball spin, paddle elasticity.
-* **Game Over Screen:** A clear display for the winner and option to replay.
-* **Sound Effects/Music:** Enhance immersion with audio cues.
-* **Visual Polish:** More advanced animations, background, particle effects.
-* **Deployment:** Deploy the full-stack application to a cloud platform.
