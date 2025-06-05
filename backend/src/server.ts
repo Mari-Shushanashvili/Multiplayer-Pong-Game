@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
  * @param socket - The individual Socket.IO socket representing the client's connection.
  */
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id); // Debug log: confirm connection received
+  console.log('A user connected:', socket.id);
 
   socket.on('createGame', (playerName: string) => {
     console.log(`Received 'createGame' from ${socket.id} with name: ${playerName}`); // Debug log
@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
         socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
         console.log(`Player ${socket.id} (${playerName}) created and joined game: ${gameId} as Player ${addPlayerResult.playerNumber}`); // Debug log
         
-        gameManager.playerGameMap.set(socket.id, gameId); // Track creator in playerGameMap
+        gameManager.playerGameMap.set(socket.id, gameId);
         console.log(`DEBUG: Player ${socket.id} added to playerGameMap for game ${gameId} during creation.`); // Debug log
 
         gameManager.startGameLoop(gameId, io); 

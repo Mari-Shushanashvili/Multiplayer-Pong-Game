@@ -123,7 +123,6 @@ export class GameManager {
 
           if (gameState.status === 'gameOver') {
               this.stopGameLoop(gameId);
-              // this.removeGame(gameId); // Game instance removed on last player disconnect
           }
 
       }, 1000 / 60);

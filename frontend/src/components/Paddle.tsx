@@ -1,5 +1,5 @@
 import React from 'react';
-import './Paddle.css' // Import the CSS file for styling
+import './Paddle.css'
 
 /**
  * Props interface for the Paddle component.
