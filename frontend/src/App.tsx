@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './App.css'; 
 import { io, Socket } from 'socket.io-client';
 import Lobby from './components/Lobby';
 import GameCanvas from './components/GameCanvas';
 import Scoreboard from './components/Scoreboard';
 import ErrorMessage from './components/ErrorMessage';
-import { type GameState, type GameStatus } from './types/GameState';
+import { type GameState} from './types/GameState'; 
 
 /**
  * The main application component for the Pong game.
@@ -25,8 +25,8 @@ function App() {
     'ArrowUp': { playerNumber: 2, deltaY: -1 },
     'ArrowDown': { playerNumber: 2, deltaY: 1 },
   };
+  const FRONTEND_PADDLE_SPEED = 8;
 
-  const FRONTEND_PADDLE_SPEED = 6;
 
   /**
    * Manages the Socket.IO client connection lifecycle and sets up all event listeners.
@@ -37,9 +37,11 @@ function App() {
       setErrorMessage(null);
 
       socket.on('connect', () => {
+        console.log('FRONTEND: Connected to server with ID:', socket.id);
       });
 
       socket.on('disconnect', () => {
+        console.log('FRONTEND: Disconnected from server.');
         setInGame(false);
         setGameInfo(null);
         setGameState(null);
@@ -47,18 +49,21 @@ function App() {
       });
 
       socket.on('gameCreated', (data: { gameId: string; playerNumber: 1; playerName: string }) => {
+        console.log('FRONTEND: Game Created Success:', data);
         setGameInfo(data);
         setInGame(true);
         setErrorMessage(null);
       });
 
       socket.on('joinedGame', (data: { gameId: string; playerNumber: 1 | 2; playerName: string }) => {
+        console.log('FRONTEND: Successfully Joined Game:', data);
         setGameInfo(data);
         setInGame(true);
         setErrorMessage(null);
       });
 
       socket.on('playerJoinedRoom', (data: { playerId: string; playerNumber: 1 | 2; playerName: string }) => {
+        console.log(`FRONTEND: Another player (${data.playerName}) joined the room as Player ${data.playerNumber}.`);
       });
 
       socket.on('gameState', (data: GameState) => {

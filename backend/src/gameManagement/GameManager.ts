@@ -20,7 +20,11 @@ export class GameManager {
   private activeGameLoops: Map<string, NodeJS.Timeout> = new Map();
   public playerGameMap: Map<string, string> = new Map();
 
+  /**
+   * Constructs the GameManager.
+   */
   constructor() {
+    console.log("GameManager initialized"); // Debug log
   }
 
   /**
@@ -31,6 +35,7 @@ export class GameManager {
     const gameId = uuidv4();
     const newGame = new Game(gameId);
     this.games.set(gameId, newGame);
+    console.log(`New game created with ID: ${gameId}`); // Debug log
     return gameId;
   }
 
@@ -44,22 +49,31 @@ export class GameManager {
     const game = this.games.get(gameId);
 
     if (!game) {
+      console.log(`Attempted to join non-existent game: ${gameId} by ${playerId}`); // Debug log
       return { success: false, error: "Game not found." };
     }
 
     if (game.players.has(playerId)) {
+        console.log(`Player ${playerId} is already in game ${gameId}`); // Debug log
         return { success: false, error: "Player already in this game." };
     }
 
     const addPlayerResult = game.addPlayer(playerId);
     if (!addPlayerResult.success) {
+        console.log(`Failed to add player ${playerId} to game ${gameId}: ${addPlayerResult.error}`); // Debug log
         return { success: false, error: addPlayerResult.error };
     }
 
     this.playerGameMap.set(playerId, gameId);
+    console.log(`Player ${playerId} joined game ${gameId} as Player ${addPlayerResult.playerNumber}`); // Debug log
     return { success: true, playerNumber: addPlayerResult.playerNumber };
   }
   
+  /**
+   * Retrieves a game instance by its ID.
+   * @param gameId - The ID of the game to retrieve.
+   * @returns The Game instance if found, otherwise undefined.
+   */
   getGame(gameId: string): Game | undefined {
       return this.games.get(gameId);
   }
@@ -99,14 +113,23 @@ export class GameManager {
       let lastUpdateTime = Date.now();
 
       const gameLoopInterval = setInterval(() => {
-      game.updateBall(1);
+          const currentTime = Date.now();
+          const deltaTime = (currentTime - lastUpdateTime) / (1000 / 60);
+          lastUpdateTime = currentTime; 
 
-      const gameState = game.getGameState();
-      ioInstance.to(gameId).emit('gameState', gameState);
-}, 1000 / 60);
+          game.updateBall(deltaTime);
+          const gameState = game.getGameState();
+          ioInstance.to(gameId).emit('gameState', gameState);
+
+          if (gameState.status === 'gameOver') {
+              this.stopGameLoop(gameId);
+              // this.removeGame(gameId); // Game instance removed on last player disconnect
+          }
+
+      }, 1000 / 60);
 
       this.activeGameLoops.set(gameId, gameLoopInterval);
-      console.log(`Game loop started for game: ${gameId}`);
+      console.log(`Game loop started for game: ${gameId}`); // Debug log
   }
 
   /**

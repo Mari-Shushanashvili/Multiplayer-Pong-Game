@@ -44,7 +44,10 @@ app.get('/', (req, res) => {
  * @param socket - The individual Socket.IO socket representing the client's connection.
  */
 io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id); // Debug log: confirm connection received
+
   socket.on('createGame', (playerName: string) => {
+    console.log(`Received 'createGame' from ${socket.id} with name: ${playerName}`); // Debug log
     const gameId = gameManager.createGame();
     const addPlayerResult = gameManager.getGame(gameId)?.addPlayer(socket.id);
 
@@ -53,11 +56,14 @@ io.on('connection', (socket) => {
         socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
         console.log(`Player ${socket.id} (${playerName}) created and joined game: ${gameId} as Player ${addPlayerResult.playerNumber}`); // Debug log
         
+        gameManager.playerGameMap.set(socket.id, gameId); // Track creator in playerGameMap
+        console.log(`DEBUG: Player ${socket.id} added to playerGameMap for game ${gameId} during creation.`); // Debug log
+
         gameManager.startGameLoop(gameId, io); 
 
     } else {
-      socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });
-      console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`);
+        socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });
+        console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`); // Error log
     }
   });
 
@@ -67,7 +73,9 @@ io.on('connection', (socket) => {
    * @param gameId - The ID of the game to join.
    * @param playerName - The name of the player joining the game.
    */
+
   socket.on('joinGame', (gameId: string, playerName: string) => {
+    console.log(`Received 'joinGame' from ${socket.id} for game: ${gameId} with name: ${playerName}`); // Debug log
     const joinResult = gameManager.joinGame(gameId, socket.id);
 
     if (joinResult.success) {
@@ -89,6 +97,7 @@ io.on('connection', (socket) => {
        * - playerName: The name of the new player.
        */
       socket.to(gameId).emit('playerJoinedRoom', { playerId: socket.id, playerNumber: joinResult.playerNumber, playerName });
+      console.log(`Player ${socket.id} (${playerName}) joined game: ${gameId} as Player ${joinResult.playerNumber}`); // Debug log
 
       const game = gameManager.getGame(gameId);
       if (game) {
@@ -101,7 +110,7 @@ io.on('connection', (socket) => {
        * - message: A descriptive error message.
        */
       socket.emit('error', { message: joinResult.error });
-      console.error(`Player ${socket.id} (${playerName}) failed to join game ${gameId}: ${joinResult.error}`);
+      console.error(`Player ${socket.id} (${playerName}) failed to join game ${gameId}: ${joinResult.error}`); // Error log
     }
   });
 
@@ -113,10 +122,12 @@ io.on('connection', (socket) => {
    * - deltaY: The vertical displacement for the paddle (positive for down, negative for up).
    */
   socket.on('paddleMove', (data: { gameId: string, deltaY: number }) => {
+    console.log(`Received 'paddleMove' from ${socket.id} for game: ${data.gameId}, deltaY: ${data.deltaY}`); // Debug log
     const { gameId, deltaY } = data;
     const game = gameManager.getGame(gameId);
 
     if (!game) {
+      console.error(`Game ${gameId} not found for paddleMove from ${socket.id}`); // Error log
       return;
     }
 
@@ -141,6 +152,7 @@ io.on('connection', (socket) => {
    * if the disconnected player was the last one in a game.
    */
   socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id); // Debug log
     gameManager.stopGameLoopIfGameEmpty(socket.id);
   });
 });
