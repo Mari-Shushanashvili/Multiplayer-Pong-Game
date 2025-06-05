@@ -5,8 +5,10 @@ export const GAME_HEIGHT = 600;
 export const PADDLE_WIDTH = 15;
 export const PADDLE_HEIGHT = 100;
 export const BALL_RADIUS = 10;
-export const PADDLE_SPEED = 8;
-export const BALL_INITIAL_SPEED = 5;
+
+export const PADDLE_SPEED = 6;
+
+export const BALL_INITIAL_SPEED = 4;
 
 const PADDLE1_X = 0;
 
@@ -133,7 +135,7 @@ export class Game {
 
         if (this.ballVelocityX > 0 && 
             ballLeft <= p2PaddleRight && 
-            ballRight >= p2PaddleLeft && 
+            ballRight >= PADDLE2_X && 
             ballBottom >= p2PaddleTop && 
             ballTop <= p2PaddleBottom
         ) {
@@ -147,11 +149,11 @@ export class Game {
 
         if (this.gameState.ballX - this.gameState.ballRadius < 0) {
             this.gameState.player2Score++;
-            this.resetBall(1);
-        }
+            this.resetBall(-1);}
+
         else if (this.gameState.ballX + this.gameState.ballRadius > GAME_WIDTH) {
             this.gameState.player1Score++;
-            this.resetBall(-1);
+            this.resetBall(1);
         }
     }
 
@@ -191,13 +193,15 @@ export class Game {
     }
 
     /**
-     * Resets the ball to the center of the game area with a new initial velocity.
-     * @param initialHorizontalDirection - The horizontal direction for the ball's initial serve (1 for right, -1 for left).
+     * Resets the ball to the center of the game area with a new initial velocity,
+     * serving towards the side that just got scored on (i.e., away from the scorer).
+     * @param losingSideDirection - The horizontal direction for the ball's initial serve (1 for right, -1 for left).
      */
-    private resetBall(initialHorizontalDirection: 1 | -1) {
+    private resetBall(losingSideDirection: 1 | -1) {
         this.gameState.ballX = GAME_WIDTH / 2;
         this.gameState.ballY = GAME_HEIGHT / 2;
-        this.ballVelocityX = initialHorizontalDirection * BALL_INITIAL_SPEED;
+        
+        this.ballVelocityX = losingSideDirection * BALL_INITIAL_SPEED;
         this.ballVelocityY = (Math.random() > 0.5 ? 1 : -1) * BALL_INITIAL_SPEED;
         this.gameState.status = 'playing';
     }

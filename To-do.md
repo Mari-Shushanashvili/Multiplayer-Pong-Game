@@ -251,12 +251,12 @@
 
 ### Chunk 3.5: Player Input Handling (Frontend)
 
--   [ ] **To-do 3.5.1: Capture keyboard input for paddle movement**
+-   [x] **To-do 3.5.1: Capture keyboard input for paddle movement**
     -   In `frontend/src/App.tsx` or `GameCanvas.tsx`, add event listeners for keyboard events (`keydown` and `keyup`) on the `window` or `document`.
     -   Identify specific keys that will control each player's paddle movement (e.g., 'w'/'s' for Player 1, 'ArrowUp'/'ArrowDown' for Player 2).
     -   Maintain a local state (e.g., a `Set` or boolean flags) to track which movement keys are currently being pressed.
     -   **Check:** Verify that keyboard input is detected and recognized in the browser console.
--   [ ] **To-do 3.5.2: Emit paddle movement to backend**
+-   [x] **To-do 3.5.2: Emit paddle movement to backend**
     -   Modify `frontend/src/App.tsx` to periodically (e.g., in a `requestAnimationFrame` loop or `setInterval`) emit the `'paddleMove'` Socket.IO event to the backend.
     -   The event should include: `gameId`, `deltaY` (calculated from pressed keys and `PADDLE_SPEED`), and the current player's `playerNumber` (from `gameInfo`).
     -   Only emit if keys are actually pressed and the client is in a game.

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Game } from '../game/Game';
+import { Game, PADDLE_SPEED } from '../game/Game';
 import { Server } from 'socket.io';
 
 /**
@@ -20,7 +20,8 @@ export class GameManager {
   private activeGameLoops: Map<string, NodeJS.Timeout> = new Map();
   public playerGameMap: Map<string, string> = new Map();
 
-  constructor() {}
+  constructor() {
+  }
 
   /**
    * Creates a new game session.
@@ -47,25 +48,20 @@ export class GameManager {
     }
 
     if (game.players.has(playerId)) {
-      return { success: false, error: "Player already in this game." };
+        return { success: false, error: "Player already in this game." };
     }
 
     const addPlayerResult = game.addPlayer(playerId);
     if (!addPlayerResult.success) {
-      return { success: false, error: addPlayerResult.error };
+        return { success: false, error: addPlayerResult.error };
     }
 
     this.playerGameMap.set(playerId, gameId);
     return { success: true, playerNumber: addPlayerResult.playerNumber };
   }
-
-  /**
-   * Retrieves a game instance by its ID.
-   * @param gameId - The ID of the game to retrieve.
-   * @returns The Game instance if found, otherwise undefined.
-   */
+  
   getGame(gameId: string): Game | undefined {
-    return this.games.get(gameId);
+      return this.games.get(gameId);
   }
 
   /**
@@ -75,16 +71,16 @@ export class GameManager {
    * @returns True if the game was removed, false otherwise.
    */
   removeGame(gameId: string): boolean {
-    const gameRemoved = this.games.delete(gameId);
-    if (gameRemoved) {
-      this.stopGameLoop(gameId);
-      for (const [playerId, mapGameId] of this.playerGameMap.entries()) {
-        if (mapGameId === gameId) {
-          this.playerGameMap.delete(playerId);
-        }
+      const gameRemoved = this.games.delete(gameId);
+      if (gameRemoved) {
+          this.stopGameLoop(gameId);
+          for (const [playerId, mapGameId] of this.playerGameMap.entries()) {
+              if (mapGameId === gameId) {
+                  this.playerGameMap.delete(playerId);
+              }
+          }
       }
-    }
-    return gameRemoved;
+      return gameRemoved;
   }
 
   /**
@@ -94,24 +90,23 @@ export class GameManager {
    * @param ioInstance - The Socket.IO server instance for broadcasting.
    */
   startGameLoop(gameId: string, ioInstance: Server) {
-    const game = this.games.get(gameId);
-    if (!game || this.activeGameLoops.has(gameId)) {
-      return;
-    }
+      const game = this.games.get(gameId);
+      if (!game || this.activeGameLoops.has(gameId)) {
+          console.error(`Attempted to start loop for game ${gameId} but it's not found or already active.`); // Debug log
+          return; 
+      }
 
-    let lastUpdateTime = Date.now();
+      let lastUpdateTime = Date.now();
 
-    const gameLoopInterval = setInterval(() => {
-      const currentTime = Date.now();
-      const deltaTime = (currentTime - lastUpdateTime) / (1000 / 60);
-      lastUpdateTime = currentTime;
+      const gameLoopInterval = setInterval(() => {
+      game.updateBall(1);
 
-      game.updateBall(deltaTime);
       const gameState = game.getGameState();
       ioInstance.to(gameId).emit('gameState', gameState);
-    }, 1000 / 60);
+}, 1000 / 60);
 
-    this.activeGameLoops.set(gameId, gameLoopInterval);
+      this.activeGameLoops.set(gameId, gameLoopInterval);
+      console.log(`Game loop started for game: ${gameId}`);
   }
 
   /**
@@ -119,11 +114,12 @@ export class GameManager {
    * @param gameId - The ID of the game whose loop to stop.
    */
   stopGameLoop(gameId: string) {
-    const interval = this.activeGameLoops.get(gameId);
-    if (interval) {
-      clearInterval(interval);
-      this.activeGameLoops.delete(gameId);
-    }
+      const interval = this.activeGameLoops.get(gameId);
+      if (interval) {
+          clearInterval(interval);
+          this.activeGameLoops.delete(gameId);
+          console.log(`Game loop stopped for game: ${gameId}`); // Debug log
+      }
   }
 
   /**
@@ -132,18 +128,27 @@ export class GameManager {
    * @param playerId - The Socket.IO ID of the disconnected player.
    */
   stopGameLoopIfGameEmpty(playerId: string) {
-    const gameId = this.playerGameMap.get(playerId);
-    if (gameId) {
-      const game = this.games.get(gameId);
-      if (game) {
-        game.players.delete(playerId);
-        this.playerGameMap.delete(playerId);
+      const gameId = this.playerGameMap.get(playerId);
+      if (gameId) {
+          const game = this.games.get(gameId);
+          if (game) {
+              game.players.delete(playerId);
+              this.playerGameMap.delete(playerId);
 
-        if (game.players.size === 0) {
-          this.stopGameLoop(gameId);
-          this.games.delete(gameId);
-        }
+              console.log(`DEBUG: Player ${playerId} disconnected from game ${gameId}. Players remaining: ${game.players.size}`); // Debug log
+
+              if (game.players.size === 0) {
+                  this.stopGameLoop(gameId);
+                  this.games.delete(gameId);
+                  console.log(`DEBUG: Game ${gameId} removed due to no players.`); // Debug log
+              } else {
+                  console.log(`DEBUG: Player ${playerId} left game ${gameId}. Remaining players: ${game.players.size}`); // Debug log
+              }
+          } else {
+              console.log(`DEBUG: Disconnected player ${playerId} had a gameId (${gameId}) but game instance not found.`); // Debug log
+          }
+      } else {
+          console.log(`DEBUG: Disconnected player ${playerId} not found in playerGameMap (not in an active game).`); // Debug log
       }
-    }
   }
 }

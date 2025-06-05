@@ -49,10 +49,12 @@ io.on('connection', (socket) => {
     const addPlayerResult = gameManager.getGame(gameId)?.addPlayer(socket.id);
 
     if (addPlayerResult?.success) {
-      socket.join(gameId);
-      socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
-      gameManager.playerGameMap.set(socket.id, gameId);
-      gameManager.startGameLoop(gameId, io);
+        socket.join(gameId);
+        socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
+        console.log(`Player ${socket.id} (${playerName}) created and joined game: ${gameId} as Player ${addPlayerResult.playerNumber}`); // Debug log
+        
+        gameManager.startGameLoop(gameId, io); 
+
     } else {
       socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });
       console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`);
@@ -120,10 +122,10 @@ io.on('connection', (socket) => {
 
     let playerNumber: 1 | 2 | undefined;
     for (const [id, num] of game.players.entries()) {
-      if (id === socket.id) {
-        playerNumber = num;
-        break;
-      }
+        if (id === socket.id) {
+            playerNumber = num;
+            break;
+        }
     }
 
     if (playerNumber) {
