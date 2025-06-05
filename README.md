@@ -53,7 +53,7 @@ Follow these steps to get the project running on your local machine:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/YourUsername/Multiplayer-Pong-Game.git](https://github.com/YourUsername/Multiplayer-Pong-Game.git)
+    git clone https://github.com/Mari-Shushanashvili/Multiplayer-Pong-Game
     cd Multiplayer-Pong-Game
     ```
     (Replace `YourUsername` with your actual GitHub username if you've already pushed it.)
