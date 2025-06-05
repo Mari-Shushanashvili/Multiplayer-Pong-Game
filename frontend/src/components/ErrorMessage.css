@@ -1,0 +1,18 @@
+.error-message-container {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin: 15px auto;
+  width: fit-content;
+  max-width: 90%;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.95rem;
+}
+
+.error-message-text {
+  margin: 0;
+  font-weight: bold;
+}

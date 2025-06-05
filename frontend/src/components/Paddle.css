@@ -1,0 +1,13 @@
+.game-paddle {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.player-one-paddle {
+  background-color: lightblue;
+}
+
+.player-two-paddle {
+  background-color: lightcoral; 
+}

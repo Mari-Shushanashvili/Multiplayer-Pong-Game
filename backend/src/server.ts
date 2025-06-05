@@ -4,7 +4,6 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 // import path from 'path';
 import { GameManager } from './gameManagement/GameManager';
-import { GAME_WIDTH, GAME_HEIGHT, PADDLE_SPEED } from './game/Game';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -21,6 +20,7 @@ const io = new Server(server, {
   cors: {
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST'],
+    credentials: true
   },
 });
 
@@ -50,23 +50,14 @@ io.on('connection', (socket) => {
 
     if (addPlayerResult?.success) {
         socket.join(gameId);
-        /**
-         * Emits a 'gameCreated' event back to the creating client.
-         * @param data - An object containing:
-         * - gameId: The ID of the newly created game.
-         * - playerNumber: The player number assigned to the creator (typically 1).
-         * - playerName: The name of the player.
-         */
         socket.emit('gameCreated', { gameId, playerNumber: addPlayerResult.playerNumber, playerName });
+        console.log(`Player ${socket.id} (${playerName}) created and joined game: ${gameId} as Player ${addPlayerResult.playerNumber}`); // Debug log
+        
         gameManager.startGameLoop(gameId, io); 
+
     } else {
-        /**
-         * Emits an 'error' event back to the client if game creation or player addition fails.
-         * @param data - An object containing:
-         * - message: A descriptive error message.
-         */
-        socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });
-        console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`);
+      socket.emit('error', { message: addPlayerResult?.error || "Failed to create and join game." });
+      console.error(`Error for ${socket.id} (${playerName}) creating game: ${addPlayerResult?.error || "Unknown error during creation."}`);
     }
   });
 
@@ -140,7 +131,6 @@ io.on('connection', (socket) => {
     if (playerNumber) {
       game.movePaddle(playerNumber, deltaY);
       io.to(gameId).emit('gameState', game.getGameState());
-    } else {
     }
   });
 
